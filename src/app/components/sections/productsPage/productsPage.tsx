@@ -1,28 +1,78 @@
+"use client";
+
+import type {
+  Product,
+  ProductSize,
+  ProductType,
+  ProductCategory,
+} from "@/types/products";
 import { Icon } from "@iconify/react";
+import { useQuery } from "@tanstack/react-query";
+
+import Link from "next/link";
 import styles from "./productsPage.module.css";
 import Button from "../../common/button/button";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 // ------------------------------------------------------------------
 
 interface ProductsPageProps {
   title: string;
-  queryKey?: string;
+  productCategory: ProductCategory;
+  productType: ProductType;
 }
 
 // ------------------------------------------------------------------
 
-export default function ProductsPage({ title, queryKey }: ProductsPageProps) {
-  // React Query Client
-  const queryClient = useQueryClient();
+interface ProductsGridViewProps {
+  productCategory: ProductCategory;
+  productType: ProductType;
+}
 
+// ------------------------------------------------------------------
+
+interface ProductGridItemProps {
+  product: Product;
+}
+
+// ------------------------------------------------------------------
+
+const fetchProducts = async (
+  productCategory?: ProductCategory,
+  productType?: ProductType
+) => {
+  const res = await fetch(
+    `/api/products/${productCategory ? `?category=${productCategory}` : ""}/${
+      productType ? `&type=${productType}` : ""
+    }`
+  );
+  if (!res.ok) throw new Error("Failed to fetch products");
+  return res.json();
+};
+
+// ------------------------------------------------------------------
+
+function getSizeRange(sizes: ProductSize[] | undefined) {
+  if (!sizes || sizes.length === 0) return "N/A";
+  return `${sizes[0]}-${sizes[sizes.length - 1]}`;
+}
+
+// ------------------------------------------------------------------
+
+export default function ProductsPage({
+  title,
+  productCategory,
+  productType,
+}: ProductsPageProps) {
   return (
     <div className={styles.container}>
       <h1>{title}</h1>
 
       <StoreSelector />
 
-      <ProductsGridView />
+      <ProductsGridView
+        productCategory={productCategory}
+        productType={productType}
+      />
     </div>
   );
 }
@@ -50,6 +100,65 @@ function StoreSelector() {
 
 // ------------------------------------------------------------------
 
-function ProductsGridView() {
-  return <div>Products Grid View</div>;
+function ProductsGridView({
+  productCategory,
+  productType,
+}: ProductsGridViewProps) {
+  // Use React Query to fetch products
+  const {
+    data: products,
+    isLoading,
+    isError,
+    error,
+  } = useQuery({
+    queryKey:[productCategory, productType],
+    queryFn: () => fetchProducts(productCategory, productType),
+  });
+
+  if (isLoading) return <div>Loading products...</div>;
+  if (isError) return <div>Error: {(error as Error).message}</div>;
+
+  return (
+    <div className={styles.productsGridViewContainer}>
+      <p>Results: {products?.length} items</p>
+      <div className={styles.productGrid}>
+        {products?.map((product: Product) => (
+          <ProductGridItem key={product.id} product={product} />
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ------------------------------------------------------------------
+
+function ProductGridItem({ product }: ProductGridItemProps) {
+  return (
+    <Link href={`/products/${product.id}`} className={styles.productCard}>
+      <div key={product.id} className={styles.productCard}>
+        <div className={styles.productCardImageContainer} />
+        <div className={styles.productCardContentContainer}>
+          <p className={styles.productCardEyebrow}>
+            {product.category.toLocaleUpperCase()}
+            {", "}
+            {getSizeRange(product.sizesAvailable)}
+          </p>
+          <p className={styles.productCardTitle}>{product.name}</p>
+
+          {product.salePrice ? (
+            <>
+              <p className={styles.productCardSalePrice}>
+                ${product.salePrice.toFixed(2)}
+              </p>
+              <p className={styles.productCardSaleLabel}>Sale</p>
+            </>
+          ) : (
+            <p className={styles.productCardOriginalPrice}>
+              ${product.price.toFixed(2)}
+            </p>
+          )}
+        </div>
+      </div>
+    </Link>
+  );
 }

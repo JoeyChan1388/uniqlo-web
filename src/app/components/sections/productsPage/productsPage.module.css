@@ -3,6 +3,14 @@
   /* TODO: Replace 100px with default header height */
   margin: 100px auto 0 auto;
   font-family: Helvetica, Arial, sans-serif;
+
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.container p {
+  margin: 0;
 }
 
 .container h1 {
@@ -10,15 +18,68 @@
   font-weight: 400;
 }
 
+.productsGridViewContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
 .storeSelectorRow {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--text-secondary)
+  color: var(--text-secondary);
 }
 
 .storeSelectorRow div {
   display: flex;
   align-items: center;
   gap: 8px;
+}
+
+.productGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 2px;
+  row-gap: 24px;
+}
+
+.productCardImageContainer {
+  width: 100%;
+  aspect-ratio: 1 / 1.3;
+  overflow: hidden;
+  background-color: var(--background-accent);
+}
+
+.productCardContentContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.productCardEyebrow {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.productCardTitle {
+  font-size: 18px;
+}
+
+.productCardOriginalPrice {
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.productCardSalePrice {
+  font-size: 18px;
+  color: var(--sale);
+  font-weight: 600;
+}
+
+.productCardSaleLabel {
+  font-size: 14px;
+  color: var(--sale);
 }

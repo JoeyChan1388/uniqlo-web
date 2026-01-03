@@ -3,8 +3,17 @@ import styles from "./button.module.css";
 
 // ------------------------------------------------------------------
 
-type buttonSizes = "small" | "medium" | "large ";
-type buttonVariants = "filled" | "outlined" | "text";
+/**
+ * Represents the size options for the Button component.
+ */
+export type buttonSizes = "small" | "medium" | "large ";
+
+/**
+ * Represents the variant options for the Button component.
+ */
+export type buttonVariants = "filled" | "outlined" | "text";
+
+// ------------------------------------------------------------------
 
 interface ButtonProps {
   size?: buttonSizes;
