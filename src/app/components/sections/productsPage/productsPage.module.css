@@ -1,0 +1,24 @@
+.container {
+  max-width: 1200px;
+  /* TODO: Replace 100px with default header height */
+  margin: 100px auto 0 auto;
+  font-family: Helvetica, Arial, sans-serif;
+}
+
+.container h1 {
+  font-size: 32px;
+  font-weight: 400;
+}
+
+.storeSelectorRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-secondary)
+}
+
+.storeSelectorRow div {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

@@ -1,0 +1,36 @@
+header {
+  position: fixed;
+  width: 100vw;
+  top: 0;
+  z-index: 100;
+  background: #000000;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.2) 0%,
+    rgba(74, 176, 106, 0) 100%
+  );
+}
+
+.navContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navLinks {
+  display: flex;
+  gap: 3rem;
+  font-weight: bold;
+  color: #fff;
+  text-shadow: #000 0px 0px 4px;
+}
+
+.headerActions {
+  display: flex;
+  gap: 1.2rem;
+  color: #fff;
+  text-shadow: #000 0px 0px 4px;
+}

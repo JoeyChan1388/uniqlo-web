@@ -1,0 +1,40 @@
+/* ROOT */
+.buttonRoot {
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* SIZES */
+.buttonSmall {
+  padding: 6px 12px;
+  font-size: 14px;
+}
+
+.buttonMedium {
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.buttonLarge {
+  padding: 14px 28px;
+  font-size: 18px;
+}
+
+/* VARIANTS */
+.buttonFilled {
+  background-color: #0070f3;
+  color: white;
+  border: none;
+}
+
+.buttonOutlined {
+  background-color: transparent;
+  color: #0070f3;
+  border: 2px solid #0070f3;
+}
+
+.buttonText {
+  background-color: transparent;
+  color: #0070f3;
+  border: none;
+}
