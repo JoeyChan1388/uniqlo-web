@@ -7,12 +7,12 @@ import { getMemberByEmail } from "../controller";
 
 /**
  * Handles the member login request.
- * @param req - The incoming request object
+ * @param request - The incoming request object
  * @returns A response indicating the result of the login attempt
  */
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const { email, password } = await req.json();
+    const { email, password } = await request.json();
 
     // Retrieve maybe existing member by email
     const member = await getMemberByEmail(email);
@@ -57,7 +57,7 @@ export async function POST(req: Request) {
     }
   } catch (error) {
     return NextResponse.json(
-      { message: "Internal Server Error", error: (error as Error).message },
+      { message: "Server failed to login", error: (error as Error).message },
       { status: 500 }
     );
   }

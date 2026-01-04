@@ -2,10 +2,15 @@ import jwt from "jsonwebtoken";
 
 import { NextRequest, NextResponse } from "next/server";
 
-export const runtime = "nodejs"; // Force Node.js runtime
-
 // ------------------------------------------------------------------
 
+/**
+ *
+ * Middleware for protecting routes based on authentication and authorization.
+ *
+ * @param request - The incoming Next.js request object
+ * @returns - A NextResponse object to either continue, redirect, or block the request
+ */
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -18,7 +23,7 @@ export async function middleware(request: NextRequest) {
         jwt.verify(token, process.env.JWT_SECRET!);
         // Valid token exists - redirect to home
         return NextResponse.redirect(new URL("/", request.url));
-      } catch (err) {
+      } catch {
         // Invalid token - let them proceed to login page
         return NextResponse.next();
       }
@@ -43,7 +48,7 @@ export async function middleware(request: NextRequest) {
 
       // Allow the request to continue
       return NextResponse.next();
-    } catch (err) {
+    } catch {
       // Invalid token - redirect to login
       return NextResponse.redirect(new URL("/members/login", request.url));
     }
@@ -52,9 +57,12 @@ export async function middleware(request: NextRequest) {
   return NextResponse.next();
 }
 
+// ------------------------------------------------------------------
+
 export const config = {
-  matcher: [
-    "/products/create/:path*",
-    "/members/login", // Add login page to matcher
-  ],
+  matcher: ["/products/create/:path*", "/members/login"],
 };
+
+// ------------------------------------------------------------------
+
+export const runtime = "nodejs";

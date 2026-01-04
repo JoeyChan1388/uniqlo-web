@@ -26,7 +26,7 @@ export async function POST() {
     return response;
   } catch (error) {
     return NextResponse.json(
-      { message: "Internal Server Error", error: (error as Error).message },
+      { message: "Server failed to logout", error: (error as Error).message },
       { status: 500 }
     );
   }

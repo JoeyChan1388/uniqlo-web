@@ -1,14 +1,24 @@
 import jwt from "jsonwebtoken";
 
-import { pool } from "@/lib/db";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { getMemberById } from "../controller";
 
+// ------------------------------------------------------------------
+
+/**
+ *
+ * Handles the GET request to retrieve the authenticated member's information from their JWT token.
+ *
+ * @returns - A JSON response containing the member's information or an error message
+ */
 export async function GET() {
   try {
+    // Retrieve the auth token from cookies
     const cookieStore = await cookies();
     const authToken = cookieStore.get("auth_token")?.value;
 
+    // If no auth token is present, return unauthorized
     if (!authToken) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
@@ -19,22 +29,21 @@ export async function GET() {
     // Extract user ID from the token payload
     const memberId = decoded.memberId;
 
-    // Fetch fresh user data from database using the ID
-    const [members] = await pool.query(
-      "SELECT id, email, name, type FROM users WHERE id = ? LIMIT 1",
-      [memberId]
-    );
+    // Attempt to fetch member data from the database
+    const member = await getMemberById(memberId);
 
-    // If rows are returned, return the first one
-    if (Array.isArray(members) && members.length > 0) {
-      return NextResponse.json({ message: "Member found", member: members[0] }, { status: 200 });
+    // Return the member data if found
+    if (member) {
+      return NextResponse.json({ member });
+    } else {
+      return NextResponse.json(
+        { message: "Member not found" },
+        { status: 404 }
+      );
     }
-
-    return NextResponse.json({ message: "Member not found" }, { status: 404 });
-  } catch (error) {
-    console.error("Error in GET /api/members/me:", error);
+  } catch (err) {
     return NextResponse.json(
-      { message: "Internal Server Error" },
+      { error: "Server failed to get member", details: (err as Error).message },
       { status: 500 }
     );
   }

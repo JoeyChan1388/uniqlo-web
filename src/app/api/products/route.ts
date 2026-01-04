@@ -20,11 +20,13 @@ export async function GET(request: Request) {
     return NextResponse.json(result);
   } catch (err) {
     return NextResponse.json(
-      { error: "Failed to fetch products", details: (err as Error).message },
+      { error: "Server failed to fetch products", details: (err as Error).message },
       { status: 500 }
     );
   }
 }
+
+// ------------------------------------------------------------------
 
 /**
  * Handles the POST request to create a new product.
@@ -39,7 +41,7 @@ export async function POST(request: Request) {
     return NextResponse.json({ message: "Product created successfully" }, { status: 201 });
   } catch (err) {
     return NextResponse.json(
-      { error: "Failed to create product", details: (err as Error).message },
+      { error: "Server failed to create product", details: (err as Error).message },
       { status: 500 }
     );
   }

@@ -1,8 +1,8 @@
+import streamifier from "streamifier";
+
 import { pool } from "@/lib/db";
 import { normalize } from "@/lib/formats";
 import { v2 as cloudinary } from "cloudinary";
-
-import streamifier from "streamifier";
 import type { RowDataPacket } from "mysql2";
 import type { Product, ProductCategory, ProductType } from "@/types/products";
 
@@ -17,7 +17,7 @@ cloudinary.config(process.env.CLOUDINARY_URL!);
  * @param row - The db row to be converted into a Product object
  * @returns - The formatted Product object
  */
-export function formatRowToProduct(row: RowDataPacket): Product {
+function formatRowToProduct(row: RowDataPacket): Product {
   return {
     id: String(row.id),
     name: String(row.name),
@@ -31,7 +31,7 @@ export function formatRowToProduct(row: RowDataPacket): Product {
 // ------------------------------------------------------------------
 
 /**
- * 
+ *
  * @param buffer - The image buffer to upload
  * @param filename - Optional filename for the uploaded image
  * @returns A promise that resolves with the upload result
@@ -55,7 +55,7 @@ function uploadBufferToCloudinary(buffer: Buffer, filename?: string) {
  * @param opts - Object containing optional category and type filters
  * @returns - An object containing the SQL query string and an array of parameters
  */
-export function buildProductsQuery(opts: {
+function buildProductsQuery(opts: {
   category?: ProductCategory;
   type?: ProductType;
 }) {
