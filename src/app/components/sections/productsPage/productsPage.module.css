@@ -1,12 +1,12 @@
 .container {
   max-width: 1200px;
-  /* TODO: Replace 100px with default header height */
-  margin: 100px auto 0 auto;
+  margin: var(--header-height) auto 0 auto;
   font-family: Helvetica, Arial, sans-serif;
 
   display: flex;
   flex-direction: column;
   gap: 12px;
+  padding: 2rem;
 }
 
 .container p {

@@ -27,3 +27,13 @@ export type Product = {
   imageUrl?: string;
   sizesAvailable?: ProductSize[];
 };
+
+/**
+ * Represents a simplified type product listing.
+ */
+export type ProductTypeListing = {
+  id: ProductType;
+  displayName: string;
+  imageUrl?: string;
+  href?: string;
+};

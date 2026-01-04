@@ -7,3 +7,10 @@
   gap: 12px;
   padding: 2rem;
 }
+
+.storeLocatorContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 24px;
+}

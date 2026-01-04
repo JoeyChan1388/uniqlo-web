@@ -1,0 +1,41 @@
+.expandedHeaderContainer {
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #00000039;
+  z-index: 200;
+}
+
+.expandedHeaderContent {
+  width: 100%;
+  background-color: white;
+  padding: 0.6rem 0rem;
+}
+
+.productsTypesGridContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.productTypesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 2px;
+  row-gap: 24px;
+}
+
+.productTypeCard {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.productCardImageContainer {
+  height: 50px;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  background-color: var(--background-accent);
+}

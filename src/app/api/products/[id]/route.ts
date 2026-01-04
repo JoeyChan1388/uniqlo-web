@@ -1,11 +1,5 @@
-import { PRODUCTS } from "../_mock";
-import { NextResponse } from "next/server";
-
-// ------------------------------------------------------------------
-
-interface ProductGETParams {
-  id: string;
-}
+import { NextResponse, type NextRequest } from "next/server";
+import { getProductById } from "../controller";
 
 // ------------------------------------------------------------------
 
@@ -17,19 +11,20 @@ interface ProductGETParams {
  * @returns - A JSON response containing the product data or a 404 error if not found
  */
 export async function GET(
-  request: Request,
-  { params }: { params: ProductGETParams }
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params;
+  const { id } = await context.params;
 
-  // TODO: Fetch product from database by ID
-  const product = PRODUCTS.find((p) => p.id === id);
+  // Find the product by ID
+  try {
+    const result = await getProductById(id);
 
-  // If product not found, return 404 response
-  if (!product) {
-    return NextResponse.json({ message: "Product not found" }, { status: 404 });
+    return NextResponse.json(result);
+  } catch (err) {
+    return NextResponse.json(
+      { error: "Failed to fetch products", details: (err as Error).message },
+      { status: 500 }
+    );
   }
-
-  // Return the found product as JSON response
-  return NextResponse.json(product);
 }

@@ -2,20 +2,14 @@
 
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { fetchProductById } from "@/lib/Products";
 
 import styles from "./productDetailsPage.module.css";
 
 // ------------------------------------------------------------------
 
-const fetchProductById = async (id: string) => {
-  const res = await fetch(`/api/products/${id}`);
 
-  if (!res.ok) throw new Error("Failed to fetch product");
-  return res.json();
-};
-
-// ------------------------------------------------------------------
-
+// TODO: Expand this component to show full product details
 export default function ProductDetailsPage() {
   const { id } = useParams();
 

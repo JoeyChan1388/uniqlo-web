@@ -11,6 +11,43 @@ header {
   );
 }
 
+/* Announcement Bar */
+.announcementBar {
+  width: 100%;
+  background-color: #000;
+  color: #fff;
+  margin: 0;
+}
+
+.announcementBarContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0.8rem 2rem;
+}
+
+.announcementBarContent p {
+  margin: 0;
+  font-size: 14px;
+}
+
+.notMain {
+  background: #fff;
+
+  .navLinks {
+    display: flex;
+    gap: 3rem;
+    font-weight: bold;
+    color: var(--text-secondary);
+    text-shadow: none;
+  }
+
+  .headerActions {
+    display: flex;
+    gap: 1.2rem;
+    color: #000;
+  }
+}
+
 .navContainer {
   max-width: 1200px;
   margin: 0 auto;
@@ -32,5 +69,4 @@ header {
   display: flex;
   gap: 1.2rem;
   color: #fff;
-  text-shadow: #000 0px 0px 4px;
 }

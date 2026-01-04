@@ -1,3 +1,5 @@
+@import url(https://db.onlinewebfonts.com/c/13bf1d3e6c7119293f9c96e5678096e6?family=Uniqlo+Pro+Light+Regular);
+
 .verticalCarouselContainer {
   width: 100vw;
   height: 100vh;
@@ -24,7 +26,7 @@
 .verticalCarouselItemContent {
   width: 100%;
   height: fit-content;
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Uniqlo Pro Light Regular", Arial, Helvetica, sans-serif;
   color: #fff;
   text-shadow: #000 0px 0px 4px;
   margin: auto 0;

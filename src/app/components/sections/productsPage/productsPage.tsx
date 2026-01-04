@@ -8,6 +8,8 @@ import type {
 } from "@/types/products";
 import { Icon } from "@iconify/react";
 import { useQuery } from "@tanstack/react-query";
+import { fetchProducts } from "@/lib/Products";
+import { useSelectedLocation } from "@/app/stores/useSelectedLocation";
 
 import Link from "next/link";
 import styles from "./productsPage.module.css";
@@ -33,21 +35,6 @@ interface ProductsGridViewProps {
 interface ProductGridItemProps {
   product: Product;
 }
-
-// ------------------------------------------------------------------
-
-const fetchProducts = async (
-  productCategory?: ProductCategory,
-  productType?: ProductType
-) => {
-  const res = await fetch(
-    `/api/products/${productCategory ? `?category=${productCategory}` : ""}/${
-      productType ? `&type=${productType}` : ""
-    }`
-  );
-  if (!res.ok) throw new Error("Failed to fetch products");
-  return res.json();
-};
 
 // ------------------------------------------------------------------
 
@@ -80,6 +67,8 @@ export default function ProductsPage({
 // ------------------------------------------------------------------
 
 function StoreSelector() {
+  const { selectedLocation } = useSelectedLocation();
+
   return (
     <div className={styles.storeSelectorRow}>
       <div>
@@ -89,10 +78,14 @@ function StoreSelector() {
           width={22}
           height={22}
         />
-        <p>Select a store to search store stock</p>
+        <p>
+          {selectedLocation
+            ? `Store: ${selectedLocation.name}`
+            : `Select a store to search store stock`}
+        </p>
       </div>
       <Button variant="text" size="small" href="/store-locator">
-        Select Store
+        {selectedLocation ? `Change Store` : `Select Store`}
       </Button>
     </div>
   );
@@ -100,6 +93,7 @@ function StoreSelector() {
 
 // ------------------------------------------------------------------
 
+// TODO: Skeleton loading state
 function ProductsGridView({
   productCategory,
   productType,
@@ -111,10 +105,11 @@ function ProductsGridView({
     isError,
     error,
   } = useQuery({
-    queryKey:[productCategory, productType],
+    queryKey: [productCategory, productType],
     queryFn: () => fetchProducts(productCategory, productType),
   });
 
+  // Render loading, error, or products grid depending on state
   if (isLoading) return <div>Loading products...</div>;
   if (isError) return <div>Error: {(error as Error).message}</div>;
 

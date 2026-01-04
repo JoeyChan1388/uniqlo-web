@@ -1,6 +1,5 @@
-import { PRODUCTS } from "./_mock";
 import { NextResponse } from "next/server";
-import type { ProductCategory, ProductType } from "@/types/products";
+import { getProducts } from "./controller";
 
 // ------------------------------------------------------------------
 
@@ -13,34 +12,16 @@ import type { ProductCategory, ProductType } from "@/types/products";
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
 
-  // Get query parameters from URL
-  const type = searchParams.get("type");
-  const category = searchParams.get("category");
-
-  // Remove trailing slash from query parameters if present
-  const filteredType = type
-    ? (type.replace(/\/$/, "") as ProductType)
-    : undefined;
-  const filteredCategory = category
-    ? (category.replace(/\/$/, "") as ProductCategory)
-    : undefined;
-
-  // TODO: Filter products from database based on query parameters
-  const filteredProducts = PRODUCTS.filter((product) => {
-    let isMatch = true;
-
-    // Apply category filter if present
-    if (filteredCategory) {
-      isMatch = isMatch && product.category === filteredCategory;
-    }
-
-    // Apply type filter if present
-    if (filteredType) {
-      isMatch = isMatch && product.type === filteredType;
-    }
-
-    return isMatch;
-  });
-
-  return NextResponse.json(filteredProducts);
+  try {
+    const result = await getProducts({
+      category: searchParams.get("category") ?? undefined,
+      type: searchParams.get("type") ?? undefined,
+    });
+    return NextResponse.json(result);
+  } catch (err) {
+    return NextResponse.json(
+      { error: "Failed to fetch products", details: (err as Error).message },
+      { status: 500 }
+    );
+  }
 }

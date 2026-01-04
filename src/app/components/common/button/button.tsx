@@ -6,7 +6,7 @@ import styles from "./button.module.css";
 /**
  * Represents the size options for the Button component.
  */
-export type buttonSizes = "small" | "medium" | "large ";
+export type buttonSizes = "small" | "medium" | "large";
 
 /**
  * Represents the variant options for the Button component.

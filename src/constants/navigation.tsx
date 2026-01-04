@@ -1,9 +1,12 @@
+"use client";
+
 import Link from "next/link";
 import Logo from "@/app/components/common/logo";
 import IconButton from "@/app/components/common/iconButton/iconButton";
 
 import { Icon } from "@iconify/react";
 import { NavItem } from "@/types/navigation";
+import { useExpandedHeader } from "@/app/stores/useExpandedHeader";
 import { HeaderPrimaryNavItem } from "@/app/components/layout/navItems/headerPrimaryNavItem";
 
 // ------------------------------------------------------------------
@@ -22,12 +25,29 @@ export const CONST_HEADER_ACTIONS = [
   { icon: "mdi:heart-outline", href: "/favorites" },
   { icon: "mdi:user-outline", href: "/account" },
   { icon: "mdi:cart-outline", href: "/cart" },
-  { icon: "mdi:menu", href: "/menu" },
+  {
+    icon: "mdi:menu",
+    href: "/menu",
+    onClick: () => {
+      useExpandedHeader.getState().setOpenExpandedHeader(true);
+    },
+  },
 ];
 
 // ------------------------------------------------------------------
 
+export const CONST_MAIN_ROUTES = ["/", "/women", "/men", "/kids", "/baby"];
+
+// ------------------------------------------------------------------
+
 export const CONST_HEADER_SLOTS = {
+  announcementBarSlot: (
+    <div className="announcementBar">
+      <div className="announcementBarContent">
+        <p>Winter sale is on, while supplies last!</p>
+      </div>
+    </div>
+  ),
   leftSlot: (
     <div>
       <Link href="/">
@@ -48,7 +68,7 @@ export const CONST_HEADER_SLOTS = {
     <div>
       <ul className="headerActions">
         {CONST_HEADER_ACTIONS.map((action) => (
-          <IconButton key={action.href}>
+          <IconButton key={action.href} onClick={action.onClick}>
             <Icon fontSize={22} icon={action.icon} />
           </IconButton>
         ))}

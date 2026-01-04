@@ -1,5 +1,6 @@
 import "./globals.css";
 
+import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { CONST_HEADER_SLOTS } from "@/constants/navigation";
 
@@ -24,7 +25,9 @@ export default function RootLayout({
     <html lang="en">
       <body>
         <NextQueryProvider>
-          <Header slots={CONST_HEADER_SLOTS} />
+          <Suspense fallback={<div aria-hidden="true" />}>
+            <Header slots={CONST_HEADER_SLOTS} />
+          </Suspense>
           {children}
         </NextQueryProvider>
       </body>
