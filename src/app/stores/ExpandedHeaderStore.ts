@@ -5,7 +5,7 @@ import { create } from "zustand";
 /**
  * Represents the store for managing the state of the expanded header.
  */
-type ExpandedHeaderStore = {
+export type ExpandedHeaderStore = {
   openExpandedHeader: boolean;
   setOpenExpandedHeader: (open: boolean) => void;
   closeExpandedHeader: () => void;

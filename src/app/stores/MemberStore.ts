@@ -6,7 +6,7 @@ import { Member } from "@/types/members";
 /**
  * Represents the store for managing the state of the current member.
  */
-type MemberStore = {
+export type MemberStore = {
   currentMember: Member | undefined;
   loading: boolean;
   emptyCurrentMember: () => void;

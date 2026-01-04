@@ -13,7 +13,7 @@ import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.
 /**
  * Represents the form fields for a member login request.
  */
-type loginFormFields = {
+export type loginFormFields = {
   email: string;
   password: string;
 };

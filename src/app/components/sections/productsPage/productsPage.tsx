@@ -14,7 +14,7 @@ import Button from "@/app/components/common/button/button";
 
 // ------------------------------------------------------------------
 
-interface ProductsPageProps {
+export interface ProductsPageProps {
   title: string;
   productCategory: ProductCategory;
   productType: ProductType;
@@ -22,14 +22,14 @@ interface ProductsPageProps {
 
 // ------------------------------------------------------------------
 
-interface ProductsGridViewProps {
+export interface ProductsGridViewProps {
   productCategory: ProductCategory;
   productType: ProductType;
 }
 
 // ------------------------------------------------------------------
 
-interface ProductGridItemProps {
+export interface ProductGridItemProps {
   product: Product;
 }
 

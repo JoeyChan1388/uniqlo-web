@@ -13,33 +13,21 @@ import { getMemberByEmail } from "../controller";
 export async function POST(req: Request) {
   try {
     const { email, password } = await req.json();
-    let member = null;
 
-    try {
-      member = await getMemberByEmail(email);
+    // Retrieve maybe existing member by email
+    const member = await getMemberByEmail(email);
 
-      // If member does not exist, return 404
-      if (!member) {
-        return NextResponse.json(
-          { message: "Member does not exist" },
-          { status: 404 }
-        );
-      }
-    } catch (error) {
+    // If member does not exist, return 404
+    if (!member) {
       return NextResponse.json(
-        {
-          message: "Error retrieving member",
-          error: (error as Error).message,
-        },
-        { status: 500 }
+        { message: "Member does not exist" },
+        { status: 404 }
       );
     }
 
-    // Member exists, validate password (in real scenario, use hashed passwords)
+    // Member exists, validate password
     if (password === "pass123") {
-      // Correct password, issue token and set cookie
-
-      // Create JWT with user ID and other identifiers inside the payload
+      // Correct password, issue JWT token and set cookie
       const token = jwt.sign(
         {
           memberId: member.id,

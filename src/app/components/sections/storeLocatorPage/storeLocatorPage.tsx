@@ -10,7 +10,7 @@ import TextInput from "@/app/components/common/textInput/textInput";
 
 // ------------------------------------------------------------------
 
-const CONST_DEFAULT_LOCATIONS: Location[] = [
+export const CONST_DEFAULT_LOCATIONS: Location[] = [
   {
     id: "1",
     name: "UNIQLO Downtown",
@@ -71,7 +71,7 @@ export default function StoreLocatorPage() {
 
 // ------------------------------------------------------------------
 
-function StoreLocationItem({ location }: { location: Location }) {
+export function StoreLocationItem({ location }: { location: Location }) {
   // Access selected location state from the store
   const { selectedLocation, setSelectedLocation } = useSelectedLocation();
 

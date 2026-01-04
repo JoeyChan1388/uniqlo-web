@@ -14,13 +14,13 @@ export type VerticalCarouselItem = {
 
 // ------------------------------------------------------------------
 
-interface VerticalCarouselProps {
+export interface VerticalCarouselProps {
   items: Array<VerticalCarouselItem>;
 }
 
 // ------------------------------------------------------------------
 
-interface VerticalCarouselItemProps {
+export interface VerticalCarouselItemProps {
   item: VerticalCarouselItem;
 }
 

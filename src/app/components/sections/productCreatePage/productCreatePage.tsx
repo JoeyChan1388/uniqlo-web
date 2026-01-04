@@ -11,7 +11,7 @@ import type { ProductCategory, ProductType } from "@/types/products";
 /**
  * Represents the form fields for creating a new product record.
  */
-type ProductFormFields = {
+export type ProductFormFields = {
   name: string;
   category: ProductCategory;
   type: ProductType;

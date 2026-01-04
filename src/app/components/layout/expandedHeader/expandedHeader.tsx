@@ -1,16 +1,15 @@
 import React from "react";
-
-import { Icon } from "@iconify/react";
-import { AnimatePresence, motion } from "framer-motion";
-import type { ProductTypeListing } from "@/types/products";
-import { useExpandedHeader } from "@/app/stores/ExpandedHeaderStore";
-import { CONST_PRODUCT_TYPE_LISTINGS_WOMEN } from "@/constants/navigation";
-
 import Link from "next/link";
 import styles from "./expandedHeader.module.css";
 import TextInput from "@/app/components/common/textInput/textInput";
 import IconButton from "@/app/components/common/iconButton/iconButton";
+
+import { Icon } from "@iconify/react";
+import { AnimatePresence, motion } from "framer-motion";
+import type { ProductTypeListing } from "@/types/products";
 import { useCurrentMember } from "@/app/stores/MemberStore";
+import { useExpandedHeader } from "@/app/stores/ExpandedHeaderStore";
+import { CONST_PRODUCT_TYPE_LISTINGS_WOMEN } from "@/constants/navigation";
 
 // ------------------------------------------------------------------
 
@@ -25,15 +24,21 @@ interface ExpandedHeaderProps {
 
 // ------------------------------------------------------------------
 
+interface GridViewProps {
+  open: boolean;
+}
+
+// ------------------------------------------------------------------
+
 export default function ExpandedHeader({ slots }: ExpandedHeaderProps) {
-  const open = useExpandedHeader((state) => state.openExpandedHeader);
   const { currentMember, logout } = useCurrentMember();
+  const { openExpandedHeader } = useExpandedHeader();
 
   return (
     <motion.div
       initial={{ display: "none", opacity: 0 }}
       animate={
-        open
+        openExpandedHeader
           ? { display: "block", opacity: 1 }
           : { display: "none", opacity: 0 }
       }
@@ -56,7 +61,9 @@ export default function ExpandedHeader({ slots }: ExpandedHeaderProps) {
               gap: 16,
             }}
           >
-            {currentMember && <p onClick={logout}>Welcome, {currentMember.name}!</p>}
+            {currentMember && (
+              <p onClick={logout}>Welcome, {currentMember.name}!</p>
+            )}
             <IconButton
               onClick={() => useExpandedHeader.getState().closeExpandedHeader()}
             >
@@ -85,7 +92,7 @@ export default function ExpandedHeader({ slots }: ExpandedHeaderProps) {
         </div>
 
         <div className="navContainer">
-          <ProductTypesGridView open={open} />
+          <ProductTypesGridView open={openExpandedHeader} />
         </div>
       </div>
     </motion.div>
@@ -94,7 +101,7 @@ export default function ExpandedHeader({ slots }: ExpandedHeaderProps) {
 
 // ------------------------------------------------------------------
 
-function ProductTypesGridView({ open }: { open: boolean }) {
+function ProductTypesGridView({ open }: GridViewProps) {
   const productTypes: ProductTypeListing[] = CONST_PRODUCT_TYPE_LISTINGS_WOMEN;
 
   return (

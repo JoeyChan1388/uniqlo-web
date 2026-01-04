@@ -15,7 +15,7 @@ export type buttonVariants = "filled" | "outlined" | "text";
 
 // ------------------------------------------------------------------
 
-interface ButtonProps {
+export interface ButtonProps {
   size?: buttonSizes;
   variant?: buttonVariants;
   disabled?: boolean;

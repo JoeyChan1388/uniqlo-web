@@ -7,21 +7,21 @@ import React from "react";
 /**
  * Represents the different variants available for the TextInput component.
  */
-type TextInputVariant = "outlined" | "filled";
+export type TextInputVariant = "outlined" | "filled";
 
 /**
  * Represents the different sizes available for the TextInput component.
  */
-type TextInputSize = "small" | "medium" | "large";
+export type TextInputSize = "small" | "medium" | "large";
 
 /**
  * Represents the different input types available for the TextInput component.
  */
-type TextInputTypes = "text" | "password" | "email" | "number";
+export type TextInputTypes = "text" | "password" | "email" | "number";
 
 // ------------------------------------------------------------------
 
-interface TextInputProps {
+export interface TextInputProps {
   variant?: TextInputVariant;
   size?: TextInputSize;
   placeholder?: string;
