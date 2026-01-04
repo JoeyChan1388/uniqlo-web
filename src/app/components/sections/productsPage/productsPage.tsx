@@ -12,6 +12,7 @@ import { fetchProducts } from "@/lib/Products";
 import { useSelectedLocation } from "@/app/stores/useSelectedLocation";
 
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./productsPage.module.css";
 import Button from "../../common/button/button";
 
@@ -131,7 +132,14 @@ function ProductGridItem({ product }: ProductGridItemProps) {
   return (
     <Link href={`/products/${product.id}`} className={styles.productCard}>
       <div key={product.id} className={styles.productCard}>
-        <div className={styles.productCardImageContainer} />
+        <div className={styles.productCardImageContainer}>
+          <Image
+            width={300}
+            height={400}
+            alt={product.name}
+            src={product.thumbnailUrl || "/images/placeholder.png"}
+          />
+        </div>
         <div className={styles.productCardContentContainer}>
           <p className={styles.productCardEyebrow}>
             {product.category.toLocaleUpperCase()}

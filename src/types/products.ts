@@ -24,7 +24,7 @@ export type Product = {
   type: ProductType;
   category: ProductCategory;
   rating?: number;
-  imageUrl?: string;
+  thumbnailUrl?: string;
   sizesAvailable?: ProductSize[];
 };
 

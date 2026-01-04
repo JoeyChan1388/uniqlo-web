@@ -1,4 +1,6 @@
 import { pool } from "@/lib/db";
+
+import type { RowDataPacket } from "mysql2";
 import type { Product, ProductCategory, ProductType } from "@/types/products";
 
 // ------------------------------------------------------------------
@@ -12,6 +14,26 @@ import type { Product, ProductCategory, ProductType } from "@/types/products";
  */
 export function normalize(q?: string) {
   return q ? q.replace(/\/$/, "") : undefined;
+}
+
+// ------------------------------------------------------------------
+
+/**
+ *
+ * Formats a database row into a Product object.
+ *
+ * @param row - The db row to be converted into a Product object
+ * @returns - The formatted Product object
+ */
+export function formatRowToProduct(row: RowDataPacket): Product {
+  return {
+    id: String(row.id),
+    name: String(row.name),
+    category: row.category as ProductCategory,
+    type: row.type as ProductType,
+    price: Number(row.price),
+    thumbnailUrl: row.thumbnail_url ?? row.thumbnailUrl ?? "",
+  };
 }
 
 // ------------------------------------------------------------------
@@ -43,7 +65,7 @@ export function buildProductsQuery(opts: {
 
   // Construct the final SQL query
   const where = conditions.length ? ` WHERE ${conditions.join(" AND ")}` : "";
-  const sql = `SELECT id, name, category, type, price FROM products${where} ORDER BY id ASC LIMIT 100`;
+  const sql = `SELECT id, name, category, type, price, thumbnail_url FROM products${where} ORDER BY id ASC LIMIT 100`;
 
   // Return the constructed SQL query string and parameters
   return { sql, params };
@@ -67,8 +89,11 @@ export async function getProducts(raw: { category?: string; type?: string }) {
   const { sql, params } = buildProductsQuery({ category, type });
   const [rows] = await pool.query(sql, params);
 
+  // Map database rows to TypeScript Product objects
+  const formattedRows: Product[] = (rows as RowDataPacket[]).map(formatRowToProduct);
+
   // Return the resulting rows
-  return rows;
+  return formattedRows;
 }
 
 // ------------------------------------------------------------------
@@ -81,11 +106,14 @@ export async function getProducts(raw: { category?: string; type?: string }) {
  */
 export async function getProductById(id: string) {
   // Build and execute the query
-  const sql = `SELECT id, name, category, type, price FROM products WHERE id = ? LIMIT 1`;
+  const sql = `SELECT id, name, category, type, price, thumbnail_url FROM products WHERE id = ? LIMIT 1`;
   const [rows] = await pool.query(sql, [id]);
 
+  // Map database rows to TypeScript Product objects
+  const formattedRows: Product[] = (rows as RowDataPacket[]).map(formatRowToProduct);
+
   // If rows are returned, return the first one
-  if (Array.isArray(rows) && rows.length > 0) {
-    return rows[0] as Product;
+  if (Array.isArray(formattedRows) && formattedRows.length > 0) {
+    return formattedRows[0];
   }
 }

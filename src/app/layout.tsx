@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>
+      <body suppressHydrationWarning>
         <NextQueryProvider>
           <Suspense fallback={<div aria-hidden="true" />}>
             <Header slots={CONST_HEADER_SLOTS} />
