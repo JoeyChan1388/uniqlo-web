@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { getProducts } from "./controller";
+import { createProduct, getProducts } from "./controller";
 
 // ------------------------------------------------------------------
 
@@ -21,6 +21,25 @@ export async function GET(request: Request) {
   } catch (err) {
     return NextResponse.json(
       { error: "Failed to fetch products", details: (err as Error).message },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * Handles the POST request to create a new product.
+ * 
+ * @param request - The incoming request object containing product data in the body
+ * @returns - A JSON response indicating success or failure of product creation
+ */
+export async function POST(request: Request) {
+  try {
+    await createProduct(request);
+   
+    return NextResponse.json({ message: "Product created successfully" }, { status: 201 });
+  } catch (err) {
+    return NextResponse.json(
+      { error: "Failed to create product", details: (err as Error).message },
       { status: 500 }
     );
   }

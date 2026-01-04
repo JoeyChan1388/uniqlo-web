@@ -1,20 +1,12 @@
 import { pool } from "@/lib/db";
+import { normalize } from "@/lib/formats";
+import { v2 as cloudinary } from "cloudinary";
 
+import streamifier from "streamifier";
 import type { RowDataPacket } from "mysql2";
 import type { Product, ProductCategory, ProductType } from "@/types/products";
 
-// ------------------------------------------------------------------
-
-/**
- *
- * Normalizes a query string by removing any trailing slashes.
- *
- * @param q - query string
- * @returns - normalized query string without trailing slash
- */
-export function normalize(q?: string) {
-  return q ? q.replace(/\/$/, "") : undefined;
-}
+cloudinary.config(process.env.CLOUDINARY_URL!);
 
 // ------------------------------------------------------------------
 
@@ -34,6 +26,24 @@ export function formatRowToProduct(row: RowDataPacket): Product {
     price: Number(row.price),
     thumbnailUrl: row.thumbnail_url ?? row.thumbnailUrl ?? "",
   };
+}
+
+// ------------------------------------------------------------------
+
+/**
+ * 
+ * @param buffer - The image buffer to upload
+ * @param filename - Optional filename for the uploaded image
+ * @returns A promise that resolves with the upload result
+ */
+function uploadBufferToCloudinary(buffer: Buffer, filename?: string) {
+  return new Promise<any>((resolve, reject) => {
+    const stream = cloudinary.uploader.upload_stream(
+      { folder: "products", public_id: filename },
+      (error, result) => (error ? reject(error) : resolve(result))
+    );
+    streamifier.createReadStream(buffer).pipe(stream);
+  });
 }
 
 // ------------------------------------------------------------------
@@ -90,7 +100,9 @@ export async function getProducts(raw: { category?: string; type?: string }) {
   const [rows] = await pool.query(sql, params);
 
   // Map database rows to TypeScript Product objects
-  const formattedRows: Product[] = (rows as RowDataPacket[]).map(formatRowToProduct);
+  const formattedRows: Product[] = (rows as RowDataPacket[]).map(
+    formatRowToProduct
+  );
 
   // Return the resulting rows
   return formattedRows;
@@ -110,10 +122,57 @@ export async function getProductById(id: string) {
   const [rows] = await pool.query(sql, [id]);
 
   // Map database rows to TypeScript Product objects
-  const formattedRows: Product[] = (rows as RowDataPacket[]).map(formatRowToProduct);
+  const formattedRows: Product[] = (rows as RowDataPacket[]).map(
+    formatRowToProduct
+  );
 
   // If rows are returned, return the first one
   if (Array.isArray(formattedRows) && formattedRows.length > 0) {
     return formattedRows[0];
   }
+}
+
+// ------------------------------------------------------------------
+
+/**
+ *
+ * Creates a new product in the database, first uploading the thumbnail image to Cloudinary if provided.
+ *
+ * @param request - The incoming request object containing product data in the form data
+ */
+export async function createProduct(request: Request) {
+  // Parse the form data from the request
+  const form = await request.formData();
+
+  // Extract product fields from the form data
+  const name = String(form.get("name") ?? "");
+  const category = String(form.get("category") ?? "");
+  const type = String(form.get("type") ?? "");
+  const price = Number(form.get("price") ?? 0);
+  const file = form.get("thumbnail") as File | null;
+
+  // Initialize thumbnail URL as null
+  let thumbnailUrl: string | null = null;
+
+  // If a file is provided, upload it to Cloudinary
+  if (file) {
+    // Convert the File to a Buffer and upload
+    const arr = await file.arrayBuffer();
+    const buffer = Buffer.from(arr);
+
+    // Generate a safe filename from the product name and upload to Cloudinary
+    const filename = name.replace(/[^a-z0-9-_\.]/gi, "_").toLowerCase();
+
+    // Upload the buffer to Cloudinary with the generated filename
+    const res = await uploadBufferToCloudinary(buffer, filename);
+    thumbnailUrl = res.secure_url;
+  }
+
+  // Insert the new product into the database with the thumbnail URL if available
+  await pool.query(
+    "INSERT INTO products (name, category, type, price, thumbnail_url) VALUES (?, ?, ?, ?, ?)",
+    [name, category, type, price, thumbnailUrl]
+  );
+
+  return new Response(JSON.stringify({ success: true }), { status: 201 });
 }

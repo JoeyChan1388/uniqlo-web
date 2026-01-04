@@ -1,20 +1,16 @@
 "use client";
 
-import type {
-  Product,
-  ProductSize,
-  ProductType,
-  ProductCategory,
-} from "@/types/products";
 import { Icon } from "@iconify/react";
-import { useQuery } from "@tanstack/react-query";
+import { getSizeRange } from "@/lib/formats";
 import { fetchProducts } from "@/lib/Products";
+import { useQuery } from "@tanstack/react-query";
 import { useSelectedLocation } from "@/app/stores/useSelectedLocation";
+import type { Product, ProductType, ProductCategory } from "@/types/products";
 
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./productsPage.module.css";
-import Button from "../../common/button/button";
+import Button from "@/app/components/common/button/button";
 
 // ------------------------------------------------------------------
 
@@ -35,13 +31,6 @@ interface ProductsGridViewProps {
 
 interface ProductGridItemProps {
   product: Product;
-}
-
-// ------------------------------------------------------------------
-
-function getSizeRange(sizes: ProductSize[] | undefined) {
-  if (!sizes || sizes.length === 0) return "N/A";
-  return `${sizes[0]}-${sizes[sizes.length - 1]}`;
 }
 
 // ------------------------------------------------------------------
