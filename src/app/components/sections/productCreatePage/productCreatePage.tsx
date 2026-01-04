@@ -1,8 +1,10 @@
 "use client";
 
+import styles from "./productCreatePage.module.css";
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import styles from "./productCreatePage.module.css";
+import type { ProductCategory, ProductType } from "@/types/products";
 
 // ------------------------------------------------------------------
 
@@ -11,11 +13,51 @@ import styles from "./productCreatePage.module.css";
  */
 type ProductFormFields = {
   name: string;
-  category: string;
-  type: string;
+  category: ProductCategory;
+  type: ProductType;
   price: number;
   thumbnail: FileList;
 };
+
+// ------------------------------------------------------------------
+
+/**
+ *
+ * Handles the form submission for creating a new product.
+ *
+ * @param values - The values of the form to be submitted
+ * @param reset - The form reset function
+ * @param setResultMessage - The setter for the result message state
+ */
+async function onSubmit(
+  values: ProductFormFields,
+  reset: () => void,
+  setResultMessage: (msg: string | null) => void
+) {
+  setResultMessage(null);
+
+  try {
+    const fd = new FormData();
+    fd.append("name", values.name);
+    fd.append("category", values.category);
+    fd.append("type", values.type);
+    fd.append("price", String(values.price));
+    const file = values.thumbnail?.[0];
+    if (file) fd.append("thumbnail", file, file.name);
+
+    const res = await fetch("/api/products", {
+      method: "POST",
+      body: fd,
+    });
+
+    if (!res.ok) throw new Error(`Server returned ${res.status}`);
+
+    setResultMessage("Product created successfully.");
+    reset();
+  } catch (err) {
+    setResultMessage(`Create failed: ${(err as Error).message}`);
+  }
+}
 
 // ------------------------------------------------------------------
 
@@ -29,38 +71,16 @@ export default function ProductCreatePage() {
 
   const [resultMessage, setResultMessage] = useState<string | null>(null);
 
-  async function onSubmit(values: ProductFormFields) {
-    setResultMessage(null);
-
-    console.log("Submitting product:", values);
-    try {
-      const fd = new FormData();
-      fd.append("name", values.name);
-      fd.append("category", values.category);
-      fd.append("type", values.type);
-      fd.append("price", String(values.price));
-      const file = values.thumbnail?.[0];
-      if (file) fd.append("thumbnail", file, file.name);
-
-      const res = await fetch("/api/products", {
-        method: "POST",
-        body: fd,
-      });
-
-      if (!res.ok) throw new Error(`Server returned ${res.status}`);
-
-      setResultMessage("Product created successfully.");
-      reset();
-    } catch (err) {
-      setResultMessage(`Create failed: ${(err as Error).message}`);
-    }
-  }
-
   return (
     <div className={styles.container}>
       <h1>Create New Product</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)} className={styles.form}>
+      <form
+        onSubmit={handleSubmit((values) =>
+          onSubmit(values, reset, setResultMessage)
+        )}
+        className={styles.form}
+      >
         <label>
           Name
           <input
@@ -74,9 +94,18 @@ export default function ProductCreatePage() {
 
         <label>
           Category
-          <input
+          <select
             {...register("category", { required: "Category is required" })}
-          />
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Select category
+            </option>
+            <option value="women">Women</option>
+            <option value="men">Men</option>
+            <option value="kids">Kids</option>
+            <option value="baby">Baby</option>
+          </select>
           {errors.category && (
             <div className={styles.error}>{errors.category.message}</div>
           )}
@@ -84,7 +113,17 @@ export default function ProductCreatePage() {
 
         <label>
           Type
-          <input {...register("type", { required: "Type is required" })} />
+          <select
+            {...register("type", { required: "Type is required" })}
+            defaultValue=""
+          >
+            <option value="" disabled>
+              Select Type
+            </option>
+            <option value="outerwear">Outerwear</option>
+            <option value="tops">Tops</option>
+            <option value="bottoms">Bottoms</option>
+          </select>
           {errors.type && (
             <div className={styles.error}>{errors.type.message}</div>
           )}
@@ -108,7 +147,12 @@ export default function ProductCreatePage() {
 
         <label>
           Thumbnail URL
-          <input type="file" multiple={false} {...register("thumbnail")} />
+          <input
+            type="file"
+            accept="image/*"
+            multiple={false}
+            {...register("thumbnail")}
+          />
         </label>
 
         <button type="submit" disabled={isSubmitting}>

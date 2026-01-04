@@ -4,7 +4,7 @@ import { Location } from "@/types/locations";
 // ------------------------------------------------------------------
 
 /**
- * Represents the store for managing the state of the expanded header.
+ * Represents the store for managing the state of the selected uniqlo location.
  */
 type SelectedLocationStore = {
   selectedLocation: Location | undefined;

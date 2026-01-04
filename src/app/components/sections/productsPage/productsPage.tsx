@@ -4,7 +4,7 @@ import { Icon } from "@iconify/react";
 import { getSizeRange } from "@/lib/formats";
 import { fetchProducts } from "@/lib/Products";
 import { useQuery } from "@tanstack/react-query";
-import { useSelectedLocation } from "@/app/stores/useSelectedLocation";
+import { useSelectedLocation } from "@/app/stores/SelectedLocationStore";
 import type { Product, ProductType, ProductCategory } from "@/types/products";
 
 import Link from "next/link";

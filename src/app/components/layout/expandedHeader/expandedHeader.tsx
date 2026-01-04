@@ -1,14 +1,16 @@
-import styles from "./expandedHeader.module.css";
-
 import React from "react";
 
 import { Icon } from "@iconify/react";
+import { AnimatePresence, motion } from "framer-motion";
 import type { ProductTypeListing } from "@/types/products";
+import { useExpandedHeader } from "@/app/stores/ExpandedHeaderStore";
+import { CONST_PRODUCT_TYPE_LISTINGS_WOMEN } from "@/constants/navigation";
 
 import Link from "next/link";
+import styles from "./expandedHeader.module.css";
 import TextInput from "@/app/components/common/textInput/textInput";
 import IconButton from "@/app/components/common/iconButton/iconButton";
-import { useExpandedHeader } from "@/app/stores/useExpandedHeader";
+import { useCurrentMember } from "@/app/stores/MemberStore";
 
 // ------------------------------------------------------------------
 
@@ -23,46 +25,38 @@ interface ExpandedHeaderProps {
 
 // ------------------------------------------------------------------
 
-const CONST_PRODUCT_TYPE_LISTINGS: ProductTypeListing[] = [
-  {
-    id: "outerwear",
-    displayName: "Outerwear",
-    imageUrl: "/product_types/women/outerwear.jpg",
-    href: "/women/outerwear",
-  },
-  {
-    id: "tops",
-    displayName: "T-Shirts, Fleeces & Sweats",
-    imageUrl: "/product_types/women/tops.jpg",
-    href: "/women/tops",
-  },
-  {
-    id: "bottoms",
-    displayName: "Bottoms",
-    imageUrl: "/product_types/women/bottoms.jpg",
-    href: "/women/bottoms",
-  },
-];
-
-// ------------------------------------------------------------------
-
 export default function ExpandedHeader({ slots }: ExpandedHeaderProps) {
   const open = useExpandedHeader((state) => state.openExpandedHeader);
-
-  if (!open) {
-    return null;
-  }
+  const { currentMember, logout } = useCurrentMember();
 
   return (
-    <div className={[styles.expandedHeaderContainer, "notMain "].join(" ")}>
+    <motion.div
+      initial={{ display: "none", opacity: 0 }}
+      animate={
+        open
+          ? { display: "block", opacity: 1 }
+          : { display: "none", opacity: 0 }
+      }
+      transition={{ duration: 0.3 }}
+      className={[styles.expandedHeaderContainer, "notMain "].join(" ")}
+    >
       {slots?.announcementBarSlot}
 
-      {/* Normal Header Content */}
+      {/* Expanded Header Content */}
       <div className={styles.expandedHeaderContent}>
         <div className="navContainer">
           <div>{slots?.leftSlot}</div>
           <div>{slots?.centerSlot}</div>
-          <div>
+
+          {/* Right Slot is replaced by close button */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 16,
+            }}
+          >
+            {currentMember && <p onClick={logout}>Welcome, {currentMember.name}!</p>}
             <IconButton
               onClick={() => useExpandedHeader.getState().closeExpandedHeader()}
             >
@@ -91,26 +85,41 @@ export default function ExpandedHeader({ slots }: ExpandedHeaderProps) {
         </div>
 
         <div className="navContainer">
-          <ProductTypesGridView />
+          <ProductTypesGridView open={open} />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
 
 // ------------------------------------------------------------------
 
-function ProductTypesGridView() {
-  const productTypes: ProductTypeListing[] = CONST_PRODUCT_TYPE_LISTINGS;
+function ProductTypesGridView({ open }: { open: boolean }) {
+  const productTypes: ProductTypeListing[] = CONST_PRODUCT_TYPE_LISTINGS_WOMEN;
 
   return (
-    <div className={styles.productsTypesGridContainer}>
-      <div className={styles.productTypesGrid}>
-        {productTypes?.map((product: ProductTypeListing) => (
-          <ProductTypeCard key={product.id} productType={product} />
-        ))}
-      </div>
-    </div>
+    <AnimatePresence>
+      {open && (
+        <div className={styles.productsTypesGridContainer}>
+          <div className={styles.productTypesGrid}>
+            {productTypes?.map((product: ProductTypeListing, index: number) => (
+              <motion.div
+                key={product.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: index * 0.02,
+                  duration: 0.3,
+                  ease: "easeOut",
+                }}
+              >
+                <ProductTypeCard key={product.id} productType={product} />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      )}
+    </AnimatePresence>
   );
 }
 

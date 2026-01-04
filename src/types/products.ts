@@ -6,7 +6,36 @@ export type ProductCategory = "men" | "women" | "kids" | "baby";
 /**
  * Represents the available product types.
  */
-export type ProductType = "outerwear" | "tops" | "bottoms";
+export type ProductType =
+  | "outerwear"
+  | "tops"
+  | "sweaters"
+  | "shirts"
+  | "bottoms"
+  | "dresses"
+  | "innerwear"
+  | "loungewear"
+  | "accessories"
+  // Technology Collections
+  | "heattech"
+  | "airism"
+  | "sport-utility"
+  | "uv-protection"
+  | "pufftech"
+  // Collaborations & Special Collections
+  | "special-collaborations"
+  | "uniqlo-c"
+  | "jw-anderson"
+  | "ut-graphic"
+  | "cashmere"
+  | "limited-time"
+  // Shopping Categories
+  | "sale"
+  | "new-arrivals"
+  | "coming-soon"
+  | "best-sellers"
+  | "online-exclusives"
+  | "multibuy-offers";
 
 /**
  * Represents the available sizes for products.
