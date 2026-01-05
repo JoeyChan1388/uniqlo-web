@@ -1,4 +1,4 @@
-import MemberLoginPage from '../../../components/sections/memberLoginPage/productCreatePage/memberLoginPage'
+import MemberLoginPage from '@/components/sections/memberLoginPage/productCreatePage/memberLoginPage'
 
 // ------------------------------------------------------------------
 

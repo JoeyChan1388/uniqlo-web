@@ -1,4 +1,4 @@
-import StoreLocatorPage from '../../components/sections/storeLocatorPage/storeLocatorPage'
+import StoreLocatorPage from '@/components/sections/storeLocatorPage/storeLocatorPage'
 
 // ------------------------------------------------------------------
 

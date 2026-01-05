@@ -5,9 +5,8 @@ import React from "react";
 import useIsRoute from "@/hooks/useIsCurrentRoute";
 import ExpandedHeader from "../expandedHeader/expandedHeader";
 
-import { CONST_MAIN_ROUTES } from "@/constants/navigation";
 import { useAuthInit } from "@/hooks/useAuth";
-import { useCurrentMember } from "@/stores/MemberStore";
+import { CONST_MAIN_ROUTES } from "@/constants/navigation";
 
 // ------------------------------------------------------------------
 
@@ -28,7 +27,7 @@ export default function Header({ slots }: HeaderProps) {
     CONST_MAIN_ROUTES.includes(pathname)
   );
 
-  // Initialize authentication state
+  // Initialize authentication state on mount
   useAuthInit();
 
   return (

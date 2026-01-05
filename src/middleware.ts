@@ -1,17 +1,7 @@
 import jwt from "jsonwebtoken";
 
+import { DecodedMemberToken } from "./types/members";
 import { NextRequest, NextResponse } from "next/server";
-
-// ------------------------------------------------------------------
-
-/**
- * Represents the structure of a decoded member token.
- */
-type DecodedMemberToken = {
-  memberId: string;
-  email: string;
-  type: "admin" | "regular";
-};
 
 // ------------------------------------------------------------------
 
@@ -25,6 +15,7 @@ type DecodedMemberToken = {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // Retrieve the auth token from cookies from the GET new page request.  
   const token = request.cookies.get("auth_token")?.value;
 
   // Check if user is already logged in and trying to access login page
