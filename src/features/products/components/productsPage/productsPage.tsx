@@ -5,13 +5,14 @@ import { getSizeRange } from "@/lib/formats";
 import { fetchProducts } from "@/lib/Products";
 import { useQuery } from "@tanstack/react-query";
 import { useSelectedLocation } from "@/stores/SelectedLocationStore";
-import type { Product, ProductType, ProductCategory } from "@/types/products";
 
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./productsPage.module.css";
 import Button from "@/components/common/button/button";
 import Skeleton from "@/components/common/skeleton/skeleton";
+
+import type { Product, ProductType, ProductCategory } from "@/features/products/types";
 
 // ------------------------------------------------------------------
 

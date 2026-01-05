@@ -6,6 +6,7 @@ import { CONST_HEADER_SLOTS } from "@/constants/navigation";
 
 import Header from "@/components/layout/header/header";
 import NextQueryProvider from "@/context/NextQueryProvider";
+import ExpandedHeader from "@/components/layout/expandedHeader/expandedHeader";
 
 // ------------------------------------------------------------------
 
@@ -26,7 +27,9 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <NextQueryProvider>
           <Suspense fallback={<div aria-hidden="true" />}>
-            <Header slots={CONST_HEADER_SLOTS} />
+            <Header slots={CONST_HEADER_SLOTS}>
+              <ExpandedHeader slots={CONST_HEADER_SLOTS} />
+            </Header>
           </Suspense>
           {children}
         </NextQueryProvider>

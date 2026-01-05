@@ -1,4 +1,63 @@
-import { ProductTypeListing } from "@/types/products";
+import { ProductTypeListing } from "./types";
+
+/**
+ * Represents the allowed product categories.
+ */
+export const CONST_PRODUCT_CATEGORIES = [
+  "men",
+  "women",
+  "kids",
+  "baby",
+] as const;
+
+// ------------------------------------------------------------------
+
+/**
+ * Represents the allowed product types, categories, and sizes.
+ */
+export const CONST_PRODUCT_TYPES = [
+  "outerwear",
+  "tops",
+  "sweaters",
+  "shirts",
+  "bottoms",
+  "dresses",
+  "innerwear",
+  "loungewear",
+  "accessories",
+  "heattech",
+  "airism",
+  "sport-utility",
+  "uv-protection",
+  "pufftech",
+  "special-collaborations",
+  "uniqlo-c",
+  "jw-anderson",
+  "ut-graphic",
+  "cashmere",
+  "limited-time",
+  "sale",
+  "new-arrivals",
+  "coming-soon",
+  "best-sellers",
+  "online-exclusives",
+  "multibuy-offers",
+] as const;
+
+// ------------------------------------------------------------------
+
+/**
+ * Represents the allowed product sizes.
+ */
+export const CONST_PRODUCT_SIZES = [
+  "XXS",
+  "XS",
+  "S",
+  "M",
+  "L",
+  "XL",
+  "XXL",
+] as const;
 
 // ------------------------------------------------------------------
 

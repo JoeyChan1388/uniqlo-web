@@ -1,7 +1,8 @@
 import ProductsPage from "@/features/products/components/productsPage/productsPage";
 
-import type { ProductCategory, ProductType } from "@/types/products";
-import { CONST_PRODUCT_TYPE_LISTINGS_WOMEN } from "@/constants/product";
+import { CONST_PRODUCT_TYPE_LISTINGS_WOMEN } from "@/features/products/constants";
+
+import type { ProductCategory, ProductType } from "@/features/products/types";
 
 // ------------------------------------------------------------------
 

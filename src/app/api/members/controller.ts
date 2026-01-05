@@ -1,8 +1,19 @@
 import bcrypt from "bcryptjs";
 
 import { pool } from "@/lib/db";
-import { Member } from "@/types/members";
 import { RowDataPacket } from "mysql2";
+
+import { Member } from "@/features/members/types";
+
+// ------------------------------------------------------------------
+
+type DbMemberRow = RowDataPacket & {
+  id: number;
+  name: string;
+  email: string;
+  type: "regular" | "admin";
+  password: string;
+};
 
 // ------------------------------------------------------------------
 
@@ -36,7 +47,7 @@ export async function authenticateMember(email: string, password: string) {
   const [rows] = await pool.query(sql, [email]);
 
   // If no rows are returned, member does not exist
-  const compareData = Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
+  const compareData = Array.isArray(rows) && rows.length > 0 ? rows[0] as DbMemberRow : null;
 
   if (!compareData) {
     return null;
@@ -45,7 +56,7 @@ export async function authenticateMember(email: string, password: string) {
   // Compare the provided password with the stored hashed password
   const passwordMatch = await bcrypt.compare(
     password,
-    (compareData as any).password
+    (compareData).password
   );
 
   // If passwords do not match, return null
@@ -54,7 +65,7 @@ export async function authenticateMember(email: string, password: string) {
   }
 
   // Retrieve and return the full member data
-  const member = await getMemberById(String((compareData as any).id));
+  const member = await getMemberById(String((compareData).id));
 
   return member;
 }
@@ -146,8 +157,11 @@ export async function createMember(
     "admin",
   ]);
 
+  // Conver the result to RowDataPacket to access insertId
+  const insertResult = result as RowDataPacket;
+
   // Retrieve the insert ID of the new member
-  const insertId = (result as any).insertId;
+  const insertId = (insertResult).insertId;
 
   // Return the newly created member
   return {

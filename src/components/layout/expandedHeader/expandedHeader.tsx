@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
 import styles from "./expandedHeader.module.css";
@@ -7,9 +9,12 @@ import IconButton from "@/components/common/iconButton/iconButton";
 import { Icon } from "@iconify/react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useCurrentMember } from "@/stores/MemberStore";
-import type { ProductTypeListing } from "@/types/products";
 import { useExpandedHeader } from "@/stores/ExpandedHeaderStore";
-import { CONST_PRODUCT_TYPE_LISTINGS_WOMEN } from "@/constants/product";
+import {
+  CONST_PRODUCT_TYPE_LISTINGS_WOMEN,
+} from "@/features/products/constants";
+
+import type { ProductTypeListing } from "@/features/products/types";
 
 // ------------------------------------------------------------------
 

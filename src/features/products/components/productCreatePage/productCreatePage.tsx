@@ -1,4 +1,4 @@
-import styles from "./signupform.module.css";
+import styles from "./productCreatePage.module.css";
 
 import ProductCreateForm from "@/features/products/components/productCreateForm/productCreateForm";
 

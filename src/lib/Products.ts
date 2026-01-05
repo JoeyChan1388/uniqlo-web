@@ -1,12 +1,15 @@
 import { z } from "zod";
 import {
-  CONST_PRODUCT_CATEGORIES,
   CONST_PRODUCT_SIZES,
   CONST_PRODUCT_TYPES,
-  type ProductCategory,
-  type ProductType,
-} from "@/types/products";
+  CONST_PRODUCT_CATEGORIES,
+} from "@/features/products/constants";
 import { apiRoutes } from "@/constants/apiRoutes";
+
+import type {
+  ProductType,
+  ProductCategory,
+} from "@/features/products/types";
 
 // ------------------------------------------------------------------
 

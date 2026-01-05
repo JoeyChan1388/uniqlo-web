@@ -1,13 +1,14 @@
 import { defineConfig, globalIgnores } from "eslint/config";
 import nextVitals from "eslint-config-next/core-web-vitals";
 import nextTs from "eslint-config-next/typescript";
+import importPlugin from "eslint-plugin-import";
 
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
   // Add import plugin rules (e.g. to block cross-feature imports)
   {
-    plugins: ["import"],
+    plugins: { import: importPlugin },
     rules: {
       "import/no-restricted-paths": [
         "error",

@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 
-import { DecodedMemberToken } from "./types/members";
 import { NextRequest, NextResponse } from "next/server";
+
+import type { DecodedMemberToken } from "@/features/members/types";
 
 // ------------------------------------------------------------------
 
@@ -18,13 +19,31 @@ export async function middleware(request: NextRequest) {
   // Retrieve the auth token from cookies from the GET new page request.
   const token = request.cookies.get("auth_token")?.value;
 
+  if (pathname === "/women") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  // Only run when logged in as a user
+  if (pathname.startsWith("/members/account")) {
+    // Check if user is not logged in
+    if (!token) {
+      return NextResponse.redirect(new URL("/members/login", request.url));
+    }
+
+    // User is logged in, proceed to account page
+    return NextResponse.next();
+  }
+
   // Check if user is already logged in and trying to access login page
-  if (pathname.startsWith("/members/login")) {
+  if (
+    pathname.startsWith("/members/login") ||
+    pathname.startsWith("/members/signup")
+  ) {
     if (token) {
       try {
         jwt.verify(token, process.env.JWT_SECRET!);
         // Valid token exists - redirect to home
-        return NextResponse.redirect(new URL("/members/signup", request.url));
+        return NextResponse.redirect(new URL("/members/account", request.url));
       } catch {
         // Invalid token - let them proceed to login page
         return NextResponse.next();
@@ -65,7 +84,12 @@ export async function middleware(request: NextRequest) {
 // ------------------------------------------------------------------
 
 export const config = {
-  matcher: ["/products/create/:path*", "/members/login"],
+  matcher: [
+    "/products/create/:path*",
+    "/members/login",
+    "/members/account",
+    "/women",
+  ],
 };
 
 // ------------------------------------------------------------------

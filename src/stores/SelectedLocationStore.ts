@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { Location } from "@/types/locations";
+import { Location } from "@/features/storeLocations/types";
 
 // ------------------------------------------------------------------
 

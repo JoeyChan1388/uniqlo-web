@@ -1,4 +1,4 @@
-import { Location } from "@/types/locations";
+import { Location } from "@/features/storeLocations/types";
 
 // ------------------------------------------------------------------
 

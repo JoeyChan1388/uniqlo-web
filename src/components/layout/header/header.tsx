@@ -4,7 +4,6 @@ import "./header.css";
 
 import React from "react";
 import useIsRoute from "@/hooks/useIsCurrentRoute";
-import ExpandedHeader from "@/components/layout/expandedHeader/expandedHeader";
 
 import { useAuthInit } from "@/hooks/useAuth";
 import { CONST_MAIN_ROUTES } from "@/constants/navigation";
@@ -18,11 +17,12 @@ interface HeaderProps {
     rightSlot?: React.ReactNode;
     centerSlot?: React.ReactNode;
   };
+  children?: React.ReactNode;
 }
 
 // ------------------------------------------------------------------
 
-export default function Header({ slots }: HeaderProps) {
+export default function Header({ slots, children }: HeaderProps & { children?: React.ReactNode }) {
   // Get current route using next to determine if it's a main route
   const isMainRoute = useIsRoute((pathname) =>
     CONST_MAIN_ROUTES.includes(pathname)
@@ -39,8 +39,7 @@ export default function Header({ slots }: HeaderProps) {
         <div>{slots?.centerSlot}</div>
         <div>{slots?.rightSlot}</div>
       </div>
-
-      <ExpandedHeader slots={slots} />
+      {children}
     </header>
   );
 }

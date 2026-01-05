@@ -3,8 +3,13 @@ import streamifier from "streamifier";
 import { pool } from "@/lib/db";
 import { normalize } from "@/lib/formats";
 import { v2 as cloudinary } from "cloudinary";
+
 import type { RowDataPacket } from "mysql2";
-import type { Product, ProductCategory, ProductType } from "@/types/products";
+import type {
+  Product,
+  ProductCategory,
+  ProductType,
+} from "@/features/products/types";
 
 cloudinary.config(process.env.CLOUDINARY_URL!);
 

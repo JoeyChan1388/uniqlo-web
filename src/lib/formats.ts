@@ -1,4 +1,4 @@
-import { ProductSize } from "@/types/products";
+import { ProductSize } from "@/features/products/types";
 
 // ------------------------------------------------------------------
 

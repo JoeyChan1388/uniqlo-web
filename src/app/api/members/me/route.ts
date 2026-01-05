@@ -3,7 +3,8 @@ import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 import { getMemberById } from "@/app/api/members/controller";
-import { DecodedMemberToken } from "@/types/members";
+
+import type { DecodedMemberToken } from "@/features/members/types";
 
 // ------------------------------------------------------------------
 
@@ -25,7 +26,10 @@ export async function GET() {
     }
 
     // Verify and decode the JWT
-    const decoded = jwt.verify(authToken, process.env.JWT_SECRET!) as DecodedMemberToken;
+    const decoded = jwt.verify(
+      authToken,
+      process.env.JWT_SECRET!
+    ) as DecodedMemberToken;
 
     // Extract user ID from the token payload
     const memberId = decoded.memberId;

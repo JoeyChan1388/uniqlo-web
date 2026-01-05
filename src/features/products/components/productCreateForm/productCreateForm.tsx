@@ -1,6 +1,6 @@
 "use client";
 
-import styles from "./productCreatePage.module.css";
+import styles from "./productCreateForm.module.css";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -8,7 +8,7 @@ import { apiRoutes } from "@/constants/apiRoutes";
 import {
   CONST_PRODUCT_CATEGORIES,
   CONST_PRODUCT_TYPES,
-} from "@/types/products";
+} from "@/features/products/constants";
 
 import type { ProductFormFields } from "@/features/products/types";
 

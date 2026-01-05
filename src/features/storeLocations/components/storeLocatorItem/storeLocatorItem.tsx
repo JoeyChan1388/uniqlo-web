@@ -1,6 +1,6 @@
 import Button from "@/components/common/button/button";
 
-import { Location } from "@/types/locations";
+import { Location } from "@/features/storeLocations/types";
 import { useSelectedLocation } from "@/stores/SelectedLocationStore";
 
 // ------------------------------------------------------------------

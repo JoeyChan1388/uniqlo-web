@@ -6,7 +6,6 @@ import IconButton from "@/components/common/iconButton/iconButton";
 
 import { Icon } from "@iconify/react";
 import { NavItem } from "@/types/navigation";
-import type { ProductTypeListing } from "@/types/products";
 import { useExpandedHeader } from "@/stores/ExpandedHeaderStore";
 import { HeaderPrimaryNavItem } from "@/components/layout/navItems/headerPrimaryNavItem";
 

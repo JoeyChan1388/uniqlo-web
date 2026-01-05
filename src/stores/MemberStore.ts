@@ -1,6 +1,7 @@
 import { create } from "zustand";
-import { Member } from "@/types/members";
 import { apiRoutes } from "@/constants/apiRoutes";
+
+import type { Member } from "@/features/members/types";
 
 // ------------------------------------------------------------------
 
