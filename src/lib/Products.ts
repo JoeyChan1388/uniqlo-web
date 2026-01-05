@@ -1,5 +1,10 @@
-import type { ProductCategory, ProductType } from "@/types/products";
 import { z } from "zod";
+import {
+  CONST_PRODUCT_CATEGORIES,
+  CONST_PRODUCT_TYPES,
+  type ProductCategory,
+  type ProductType,
+} from "@/types/products";
 
 // ------------------------------------------------------------------
 
@@ -12,38 +17,13 @@ const ProductSchema = z.object({
   name: z.string(),
   price: z.number(),
   salePrice: z.number().optional(),
-  type: z.enum([
-    "outerwear",
-    "tops",
-    "sweaters",
-    "shirts",
-    "bottoms",
-    "dresses",
-    "innerwear",
-    "loungewear",
-    "accessories",
-    "heattech",
-    "airism",
-    "sport-utility",
-    "uv-protection",
-    "pufftech",
-    "special-collaborations",
-    "uniqlo-c",
-    "jw-anderson",
-    "ut-graphic",
-    "cashmere",
-    "limited-time",
-    "sale",
-    "new-arrivals",
-    "coming-soon",
-    "best-sellers",
-    "online-exclusives",
-    "multibuy-offers",
-  ]),
-  category: z.enum(["men", "women", "kids", "baby"]),
+  type: z.enum(CONST_PRODUCT_TYPES),
+  category: z.enum(CONST_PRODUCT_CATEGORIES),
   rating: z.number().optional(),
   thumbnailUrl: z.string().optional(),
-  sizesAvailable: z.array(z.enum(["XXS", "XS", "S", "M", "L", "XL", "XXL"])).optional(),
+  sizesAvailable: z
+    .array(z.enum(["XXS", "XS", "S", "M", "L", "XL", "XXL"]))
+    .optional(),
 });
 
 // ------------------------------------------------------------------
@@ -63,8 +43,16 @@ export const fetchProducts = async (
       productType ? `&type=${productType}` : ""
     }`
   );
+
   if (!res.ok) throw new Error("Failed to fetch products");
-  return res.json();
+
+  // Raw response data from the API
+  const data = await res.json();
+
+  // Validate the returned data using Zod schema
+  const validatedProducts = z.array(ProductSchema).parse(data);
+
+  return validatedProducts;
 };
 
 // ------------------------------------------------------------------
@@ -79,11 +67,12 @@ export const fetchProductById = async (id: string) => {
   const res = await fetch(`/api/products/${id}`);
 
   if (!res.ok) throw new Error("Failed to fetch product");
-  
+
+  // Raw response data from the API
   const data = await res.json();
-  
+
   // Validate the returned data using Zod schema
   const validatedProduct = ProductSchema.parse(data);
-  
+
   return validatedProduct;
 };
