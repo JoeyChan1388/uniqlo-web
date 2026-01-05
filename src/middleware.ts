@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
       try {
         jwt.verify(token, process.env.JWT_SECRET!);
         // Valid token exists - redirect to home
-        return NextResponse.redirect(new URL("/", request.url));
+        return NextResponse.redirect(new URL("/members/signup", request.url));
       } catch {
         // Invalid token - let them proceed to login page
         return NextResponse.next();

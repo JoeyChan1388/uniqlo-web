@@ -51,6 +51,16 @@ nav ul {
   margin: 0;
 }
 
+.pageContentContainer {
+  max-width: 1200px;
+  margin: var(--header-height) auto 0 auto;
+  font-family: Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 2rem;
+}
+
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;

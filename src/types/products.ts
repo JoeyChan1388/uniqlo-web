@@ -1,46 +1,75 @@
 /**
- * Represents the available product categories.
+ * Represents the allowed product categories.
  */
-export type ProductCategory = "men" | "women" | "kids" | "baby";
+export const CONST_PRODUCT_CATEGORIES = ["men", "women", "kids", "baby"] as const;
+
+// ------------------------------------------------------------------
 
 /**
- * Represents the available product types.
+ * Represents the allowed product types, categories, and sizes.
  */
-export type ProductType =
-  | "outerwear"
-  | "tops"
-  | "sweaters"
-  | "shirts"
-  | "bottoms"
-  | "dresses"
-  | "innerwear"
-  | "loungewear"
-  | "accessories"
-  // Technology Collections
-  | "heattech"
-  | "airism"
-  | "sport-utility"
-  | "uv-protection"
-  | "pufftech"
-  // Collaborations & Special Collections
-  | "special-collaborations"
-  | "uniqlo-c"
-  | "jw-anderson"
-  | "ut-graphic"
-  | "cashmere"
-  | "limited-time"
-  // Shopping Categories
-  | "sale"
-  | "new-arrivals"
-  | "coming-soon"
-  | "best-sellers"
-  | "online-exclusives"
-  | "multibuy-offers";
+export const CONST_PRODUCT_TYPES = [
+  "outerwear",
+  "tops",
+  "sweaters",
+  "shirts",
+  "bottoms",
+  "dresses",
+  "innerwear",
+  "loungewear",
+  "accessories",
+  "heattech",
+  "airism",
+  "sport-utility",
+  "uv-protection",
+  "pufftech",
+  "special-collaborations",
+  "uniqlo-c",
+  "jw-anderson",
+  "ut-graphic",
+  "cashmere",
+  "limited-time",
+  "sale",
+  "new-arrivals",
+  "coming-soon",
+  "best-sellers",
+  "online-exclusives",
+  "multibuy-offers",
+] as const;
+
+// ------------------------------------------------------------------
 
 /**
- * Represents the available sizes for products.
+ * Represents the allowed product sizes.
  */
-export type ProductSize = "XXS" | "XS" | "S" | "M" | "L" | "XL" | "XXL";
+export const CONST_PRODUCT_SIZES = ["XXS", "XS", "S", "M", "L", "XL", "XXL"] as const;
+
+// ------------------------------------------------------------------
+
+/**
+ * DERIVED TYPES
+ */
+
+/**
+ * Represents a product type.
+ */
+export type ProductType = (typeof CONST_PRODUCT_TYPES)[number];
+
+// ------------------------------------------------------------------
+
+/**
+ * Represents a product category.
+ */
+export type ProductCategory = (typeof CONST_PRODUCT_CATEGORIES)[number];
+
+// ------------------------------------------------------------------
+
+/**
+ * Represents a product category.
+ */
+export type ProductSize = (typeof CONST_PRODUCT_SIZES)[number];
+
+// ------------------------------------------------------------------
 
 /**
  * Represents a product with all its possible details.
@@ -56,6 +85,8 @@ export type Product = {
   thumbnailUrl?: string;
   sizesAvailable?: ProductSize[];
 };
+
+// ------------------------------------------------------------------
 
 /**
  * Represents a simplified type product listing.

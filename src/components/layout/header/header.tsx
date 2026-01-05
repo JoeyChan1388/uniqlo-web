@@ -1,6 +1,7 @@
 "use client";
 
 import "./header.css";
+
 import React from "react";
 import useIsRoute from "@/hooks/useIsCurrentRoute";
 import ExpandedHeader from "../expandedHeader/expandedHeader";

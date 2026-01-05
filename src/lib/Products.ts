@@ -1,4 +1,30 @@
-import type { ProductCategory, ProductType } from "@/types/products";
+import { z } from "zod";
+import {
+  CONST_PRODUCT_CATEGORIES,
+  CONST_PRODUCT_TYPES,
+  type ProductCategory,
+  type ProductType,
+} from "@/types/products";
+
+// ------------------------------------------------------------------
+
+/**
+ * Zod schema for validating product data returned from the API.
+ * Validates that the product matches the expected structure.
+ */
+const ProductSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  price: z.number(),
+  salePrice: z.number().optional(),
+  type: z.enum(CONST_PRODUCT_TYPES),
+  category: z.enum(CONST_PRODUCT_CATEGORIES),
+  rating: z.number().optional(),
+  thumbnailUrl: z.string().optional(),
+  sizesAvailable: z
+    .array(z.enum(["XXS", "XS", "S", "M", "L", "XL", "XXL"]))
+    .optional(),
+});
 
 // ------------------------------------------------------------------
 
@@ -17,8 +43,16 @@ export const fetchProducts = async (
       productType ? `&type=${productType}` : ""
     }`
   );
+
   if (!res.ok) throw new Error("Failed to fetch products");
-  return res.json();
+
+  // Raw response data from the API
+  const data = await res.json();
+
+  // Validate the returned data using Zod schema
+  const validatedProducts = z.array(ProductSchema).parse(data);
+
+  return validatedProducts;
 };
 
 // ------------------------------------------------------------------
@@ -33,5 +67,12 @@ export const fetchProductById = async (id: string) => {
   const res = await fetch(`/api/products/${id}`);
 
   if (!res.ok) throw new Error("Failed to fetch product");
-  return res.json();
+
+  // Raw response data from the API
+  const data = await res.json();
+
+  // Validate the returned data using Zod schema
+  const validatedProduct = ProductSchema.parse(data);
+
+  return validatedProduct;
 };
