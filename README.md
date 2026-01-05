@@ -6,7 +6,7 @@ This current project is made to simulate the current Uniqlo US website as close 
 
 Part 2 will consist of a UX critique and redesign, then will be implemented on top of this repo.
 
-### Tech Stack
+## Tech Stack
 ### NextJS
 Next is used for both the UI and Server.
 

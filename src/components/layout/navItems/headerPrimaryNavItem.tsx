@@ -4,7 +4,7 @@ import Link from "next/link";
 
 import { useEffect, useState } from "react";
 import { NavItem } from "@/types/navigation";
-import { useExpandedHeader } from "@/app/stores/ExpandedHeaderStore";
+import { useExpandedHeader } from "@/stores/ExpandedHeaderStore";
 
 // ------------------------------------------------------------------
 

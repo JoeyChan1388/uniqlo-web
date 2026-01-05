@@ -37,6 +37,7 @@ function formatRowToProduct(row: RowDataPacket): Product {
  * @returns A promise that resolves with the upload result
  */
 function uploadBufferToCloudinary(buffer: Buffer, filename?: string) {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return new Promise<any>((resolve, reject) => {
     const stream = cloudinary.uploader.upload_stream(
       { folder: "products", public_id: filename },

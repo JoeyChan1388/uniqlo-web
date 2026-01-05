@@ -5,6 +5,17 @@ import { NextRequest, NextResponse } from "next/server";
 // ------------------------------------------------------------------
 
 /**
+ * Represents the structure of a decoded member token.
+ */
+type DecodedMemberToken = {
+  memberId: string;
+  email: string;
+  type: "admin" | "regular";
+};
+
+// ------------------------------------------------------------------
+
+/**
  *
  * Middleware for protecting routes based on authentication and authorization.
  *
@@ -39,7 +50,10 @@ export async function middleware(request: NextRequest) {
     }
 
     try {
-      const decoded = jwt.verify(token, process.env.JWT_SECRET!);
+      const decoded = jwt.verify(
+        token,
+        process.env.JWT_SECRET!
+      ) as DecodedMemberToken;
 
       // Check if user is admin
       if (decoded.type !== "admin") {

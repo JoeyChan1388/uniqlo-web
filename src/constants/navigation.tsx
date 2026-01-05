@@ -1,14 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import Logo from "@/app/components/common/logo";
-import IconButton from "@/app/components/common/iconButton/iconButton";
+import Logo from "@/components/common/logo";
+import IconButton from "@/components/common/iconButton/iconButton";
 
 import { Icon } from "@iconify/react";
 import { NavItem } from "@/types/navigation";
 import type { ProductTypeListing } from "@/types/products";
-import { useExpandedHeader } from "@/app/stores/ExpandedHeaderStore";
-import { HeaderPrimaryNavItem } from "@/app/components/layout/navItems/headerPrimaryNavItem";
+import { useExpandedHeader } from "@/stores/ExpandedHeaderStore";
+import { HeaderPrimaryNavItem } from "@/components/layout/navItems/headerPrimaryNavItem";
 
 // ------------------------------------------------------------------
 

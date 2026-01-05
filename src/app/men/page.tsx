@@ -1,9 +1,9 @@
 import Image from "next/image";
-import Badge from "@/app/components/common/badge/badge";
+import Badge from "@/components/common/badge/badge";
 
 import VerticalCarousel, {
   VerticalCarouselItem,
-} from "@/app/components/sections/verticalCarousel/verticalCarousel";
+} from "@/components/sections/verticalCarousel/verticalCarousel";
 
 // ------------------------------------------------------------------
 

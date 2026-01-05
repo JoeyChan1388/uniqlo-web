@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { useCurrentMember } from "@/app/stores/MemberStore";
+import { useCurrentMember } from "@/stores/MemberStore";
 
 // ------------------------------------------------------------------
 

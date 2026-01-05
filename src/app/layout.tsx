@@ -4,8 +4,8 @@ import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import { CONST_HEADER_SLOTS } from "@/constants/navigation";
 
-import Header from "./components/layout/header/header";
-import NextQueryProvider from "./context/NextQueryProvider";
+import Header from "../components/layout/header/header";
+import NextQueryProvider from "../context/NextQueryProvider";
 
 // ------------------------------------------------------------------
 

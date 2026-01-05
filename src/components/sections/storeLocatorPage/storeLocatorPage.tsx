@@ -3,10 +3,10 @@
 import styles from "./storeLocatorPage.module.css";
 
 import type { Location } from "@/types/locations";
-import { useSelectedLocation } from "@/app/stores/SelectedLocationStore";
+import { useSelectedLocation } from "@/stores/SelectedLocationStore";
 
-import Button from "@/app/components/common/button/button";
-import TextInput from "@/app/components/common/textInput/textInput";
+import Button from "@/components/common/button/button";
+import TextInput from "@/components/common/textInput/textInput";
 
 // ------------------------------------------------------------------
 

@@ -5,7 +5,7 @@ import styles from "./memberLoginPage.module.css";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { useCurrentMember } from "@/app/stores/MemberStore";
+import { useCurrentMember } from "@/stores/MemberStore";
 import type { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
 // ------------------------------------------------------------------

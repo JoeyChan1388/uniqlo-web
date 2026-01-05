@@ -1,14 +1,14 @@
 import React from "react";
 import Link from "next/link";
 import styles from "./expandedHeader.module.css";
-import TextInput from "@/app/components/common/textInput/textInput";
-import IconButton from "@/app/components/common/iconButton/iconButton";
+import TextInput from "@/components/common/textInput/textInput";
+import IconButton from "@/components/common/iconButton/iconButton";
 
 import { Icon } from "@iconify/react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { ProductTypeListing } from "@/types/products";
-import { useCurrentMember } from "@/app/stores/MemberStore";
-import { useExpandedHeader } from "@/app/stores/ExpandedHeaderStore";
+import { useCurrentMember } from "@/stores/MemberStore";
+import { useExpandedHeader } from "@/stores/ExpandedHeaderStore";
 import { CONST_PRODUCT_TYPE_LISTINGS_WOMEN } from "@/constants/navigation";
 
 // ------------------------------------------------------------------

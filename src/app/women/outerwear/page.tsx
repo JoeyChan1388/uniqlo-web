@@ -1,4 +1,4 @@
-import ProductsPage from "@/app/components/sections/productsPage/productsPage";
+import ProductsPage from "@/components/sections/productsPage/productsPage";
 
 // ------------------------------------------------------------------
 

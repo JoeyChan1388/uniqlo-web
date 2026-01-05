@@ -1,4 +1,4 @@
-import ProductCreatePage from '@/app/components/sections/productCreatePage/productCreatePage'
+import ProductCreatePage from '@/components/sections/productCreatePage/productCreatePage'
 
 // ------------------------------------------------------------------
 
