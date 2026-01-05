@@ -1,3 +1,4 @@
+import Content from "@/components/layout/content/Content";
 import ProductsPage from "@/features/products/components/productsPage/productsPage";
 
 import { CONST_PRODUCT_TYPE_LISTINGS_WOMEN } from "@/features/products/constants";
@@ -22,10 +23,12 @@ export default async function Products({ params }: ProductsProps) {
   const displayName = categories.find((item) => item.id === type)?.displayName;
 
   return (
-    <ProductsPage
-      title={displayName || "Products"}
-      productCategory={category}
-      productType={type}
-    />
+    <Content>
+      <ProductsPage
+        title={displayName || "Products"}
+        productCategory={category}
+        productType={type}
+      />
+    </Content>
   );
 }

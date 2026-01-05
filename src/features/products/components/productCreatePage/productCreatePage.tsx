@@ -6,7 +6,7 @@ import ProductCreateForm from "@/features/products/components/productCreateForm/
 
 export default function ProductCreatePage() {
   return (
-    <div className={styles.container}>
+    <div>
       <h1>Create New Product</h1>
 
       <ProductCreateForm />

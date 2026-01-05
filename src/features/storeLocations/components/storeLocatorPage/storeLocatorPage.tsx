@@ -14,7 +14,7 @@ export default function StoreLocatorPage() {
   const defaultLocations = CONST_DEFAULT_LOCATIONS;
 
   return (
-    <div className={styles.container}>
+    <div>
       <h1>Select a Store</h1>
 
       <p>

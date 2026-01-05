@@ -9,7 +9,7 @@ export default function MemberAccountPage() {
   const { currentMember } = useCurrentMember();
 
   return (
-    <div className={styles.container}>
+    <div>
       <h1>Welcome, {currentMember?.name}!</h1>
       <p>Email: {currentMember?.email}</p>
       <p>Member Type: {currentMember?.type}</p>

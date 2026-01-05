@@ -1,12 +1,13 @@
 import "./globals.css";
 
 import React, { Suspense } from "react";
-import type { Metadata } from "next";
 import { CONST_HEADER_SLOTS } from "@/constants/navigation";
 
 import Header from "@/components/layout/header/header";
-import NextQueryProvider from "@/context/NextQueryProvider";
+import NextQueryProvider from "@/components/providers/NextQueryProvider";
 import ExpandedHeader from "@/components/layout/expandedHeader/expandedHeader";
+
+import type { Metadata } from "next";
 
 // ------------------------------------------------------------------
 

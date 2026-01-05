@@ -27,5 +27,5 @@ export default function ProductDetailsPage() {
   if (isLoading) return <div>Loading product...</div>;
   if (isError) return <div>Error: {(error as Error).message}</div>;
 
-  return <div className={styles.container}>{product?.name}</div>;
+  return <div>{product?.name}</div>;
 }
