@@ -1,4 +1,23 @@
 import type { ProductCategory, ProductType } from "@/types/products";
+import { z } from "zod";
+
+// ------------------------------------------------------------------
+
+/**
+ * Zod schema for validating product data returned from the API.
+ * Validates that the product matches the expected structure.
+ */
+const ProductSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  price: z.number(),
+  salePrice: z.number().optional(),
+  type: z.string() as z.ZodType<ProductType>,
+  category: z.string() as z.ZodType<ProductCategory>,
+  rating: z.number().optional(),
+  thumbnailUrl: z.string().optional(),
+  sizesAvailable: z.array(z.string()).optional(),
+});
 
 // ------------------------------------------------------------------
 
@@ -30,9 +49,14 @@ export const fetchProducts = async (
  * @returns The product with the specified ID
  */
 export const fetchProductById = async (id: string) => {
-  // TODO: Implement schema validation for the returned product data using Zod
   const res = await fetch(`/api/products/${id}`);
 
   if (!res.ok) throw new Error("Failed to fetch product");
-  return res.json();
+  
+  const data = await res.json();
+  
+  // Validate the returned data using Zod schema
+  const validatedProduct = ProductSchema.parse(data);
+  
+  return validatedProduct;
 };
