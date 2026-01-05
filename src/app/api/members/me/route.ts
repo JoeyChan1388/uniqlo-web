@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
-import { getMemberById } from "../controller";
+import { getMemberById } from "@/app/api/members/controller";
 import { DecodedMemberToken } from "@/types/members";
 
 // ------------------------------------------------------------------

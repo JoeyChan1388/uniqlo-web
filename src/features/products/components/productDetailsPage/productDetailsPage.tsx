@@ -1,10 +1,11 @@
 "use client";
 
+import styles from "./productDetailsPage.module.css";
+
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { fetchProductById } from "@/lib/Products";
 
-import styles from "./productDetailsPage.module.css";
 
 // ------------------------------------------------------------------
 

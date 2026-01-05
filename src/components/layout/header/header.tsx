@@ -4,7 +4,7 @@ import "./header.css";
 
 import React from "react";
 import useIsRoute from "@/hooks/useIsCurrentRoute";
-import ExpandedHeader from "../expandedHeader/expandedHeader";
+import ExpandedHeader from "@/components/layout/expandedHeader/expandedHeader";
 
 import { useAuthInit } from "@/hooks/useAuth";
 import { CONST_MAIN_ROUTES } from "@/constants/navigation";

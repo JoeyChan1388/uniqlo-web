@@ -1,4 +1,4 @@
-import ProductDetailsPage from "@/components/sections/productDetailsPage/productDetailsPage";
+import ProductDetailsPage from "@/features/products/components/productDetailsPage/productDetailsPage";
 
 // ------------------------------------------------------------------
 

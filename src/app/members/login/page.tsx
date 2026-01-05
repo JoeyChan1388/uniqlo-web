@@ -1,4 +1,4 @@
-import MemberLoginPage from "@/components/sections/memberLoginPage/memberLoginPage";
+import MemberLoginPage from "@/features/members/components/memberLoginPage/memberLoginPage";
 
 // ------------------------------------------------------------------
 

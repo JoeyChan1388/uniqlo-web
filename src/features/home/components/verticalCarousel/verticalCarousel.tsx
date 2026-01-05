@@ -1,33 +1,19 @@
 "use client";
 
-import { motion } from "framer-motion";
 import styles from "./verticalCarousel.module.css";
+
+import VerticalCarouselItem from "@/features/home/components/verticalCarouselItem/verticalCarouselItem";
+
+import { clamp } from "@/features/home/utils";
+import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
-
-// ------------------------------------------------------------------
-
-export type VerticalCarouselItem = {
-  id: string;
-  imageUrl: string;
-  content?: React.ReactNode;
-};
+import type { VerticalCarouselItemData } from "@/features/home/types";
 
 // ------------------------------------------------------------------
 
 export interface VerticalCarouselProps {
-  items: Array<VerticalCarouselItem>;
+  items: Array<VerticalCarouselItemData>;
 }
-
-// ------------------------------------------------------------------
-
-export interface VerticalCarouselItemProps {
-  item: VerticalCarouselItem;
-}
-
-// ------------------------------------------------------------------
-
-const clamp = (n: number, items: Array<VerticalCarouselItem>) =>
-  Math.max(0, Math.min(items.length - 1, n));
 
 // ------------------------------------------------------------------
 
@@ -124,21 +110,6 @@ export default function VerticalCarousel({ items }: VerticalCarouselProps) {
           <VerticalCarouselItem key={item.id} item={item} />
         ))}
       </motion.div>
-    </div>
-  );
-}
-
-// ------------------------------------------------------------------
-
-function VerticalCarouselItem({ item }: VerticalCarouselItemProps) {
-  return (
-    <div
-      className={styles.verticalCarouselItem}
-      style={{
-        backgroundImage: item.imageUrl ? `url(${item.imageUrl})` : "none",
-      }}
-    >
-      <div className={styles.verticalCarouselItemContent}>{item.content}</div>
     </div>
   );
 }

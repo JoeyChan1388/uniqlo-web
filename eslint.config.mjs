@@ -5,6 +5,40 @@ import nextTs from "eslint-config-next/typescript";
 const eslintConfig = defineConfig([
   ...nextVitals,
   ...nextTs,
+  // Add import plugin rules (e.g. to block cross-feature imports)
+  {
+    plugins: ["import"],
+    rules: {
+      "import/no-restricted-paths": [
+        "error",
+        {
+          zones: [
+            // example: disable cross-feature imports under src/features
+            {
+              target: "./src/features/home",
+              from: "./src/features",
+              except: ["./home"],
+            },
+            {
+              target: "./src/features/members",
+              from: "./src/features",
+              except: ["./members"],
+            },
+            {
+              target: "./src/features/products",
+              from: "./src/features",
+              except: ["./products"],
+            },
+            {
+              target: "./src/features/storeLocations",
+              from: "./src/features",
+              except: ["./storeLocations"],
+            },
+          ],
+        },
+      ],
+    },
+  },
   // Override default ignores of eslint-config-next.
   globalIgnores([
     // Default ignores of eslint-config-next:

@@ -52,9 +52,10 @@ header {
   max-width: 1200px;
   margin: 0 auto;
   padding: 0.5rem 2rem;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  width: 100%;
   align-items: center;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
 .navLinks {
@@ -63,10 +64,12 @@ header {
   font-weight: bold;
   color: #fff;
   text-shadow: #000 0px 0px 4px;
+  justify-content: center;
 }
 
 .headerActions {
   display: flex;
   gap: 1.2rem;
-  color: #fff;
+  color: #fff; 
+  justify-content: flex-end;
 }

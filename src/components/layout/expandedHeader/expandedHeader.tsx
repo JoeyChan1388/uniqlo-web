@@ -6,10 +6,10 @@ import IconButton from "@/components/common/iconButton/iconButton";
 
 import { Icon } from "@iconify/react";
 import { AnimatePresence, motion } from "framer-motion";
-import type { ProductTypeListing } from "@/types/products";
 import { useCurrentMember } from "@/stores/MemberStore";
+import type { ProductTypeListing } from "@/types/products";
 import { useExpandedHeader } from "@/stores/ExpandedHeaderStore";
-import { CONST_PRODUCT_TYPE_LISTINGS_WOMEN } from "@/constants/navigation";
+import { CONST_PRODUCT_TYPE_LISTINGS_WOMEN } from "@/constants/product";
 
 // ------------------------------------------------------------------
 
@@ -58,6 +58,7 @@ export default function ExpandedHeader({ slots }: ExpandedHeaderProps) {
             style={{
               display: "flex",
               alignItems: "center",
+              justifyContent: "flex-end",
               gap: 16,
             }}
           >
@@ -73,8 +74,13 @@ export default function ExpandedHeader({ slots }: ExpandedHeaderProps) {
         </div>
 
         <div
-          className="navContainer"
           style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            margin: "0 auto",
+            padding: "0.5rem 2rem",
+            maxWidth: 1200,
             marginTop: 16,
             gap: 16,
           }}
@@ -91,7 +97,18 @@ export default function ExpandedHeader({ slots }: ExpandedHeaderProps) {
           </IconButton>
         </div>
 
-        <div className="navContainer">
+        <div
+          style={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+            margin: "0 auto",
+            padding: "0.5rem 2rem",
+            maxWidth: 1200,
+            marginTop: 16,
+            gap: 16,
+          }}
+        >
           <ProductTypesGridView open={openExpandedHeader} />
         </div>
       </div>

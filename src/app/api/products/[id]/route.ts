@@ -1,5 +1,5 @@
-import { getProductById } from "../controller";
 import { NextRequest, NextResponse } from "next/server";
+import { getProductById } from "@/app/api/products/controller";
 
 // ------------------------------------------------------------------
 

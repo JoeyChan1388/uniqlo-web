@@ -1,18 +1,5 @@
 @import url(https://db.onlinewebfonts.com/c/13bf1d3e6c7119293f9c96e5678096e6?family=Uniqlo+Pro+Light+Regular);
 
-.verticalCarouselContainer {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  outline: none;
-}
-
-.verticalCarouselInner {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-}
-
 .verticalCarouselItem {
   width: 100vw;
   min-height: 100vh;
@@ -31,10 +18,4 @@
   text-shadow: #000 0px 0px 4px;
   margin: auto 0;
   max-width: 1200px;
-}
-
-.verticalCarouselContainer h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  font-weight: normal;
 }

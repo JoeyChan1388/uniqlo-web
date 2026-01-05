@@ -5,20 +5,12 @@ import styles from "./productCreatePage.module.css";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { apiRoutes } from "@/constants/apiRoutes";
-import type { ProductCategory, ProductType } from "@/types/products";
+import {
+  CONST_PRODUCT_CATEGORIES,
+  CONST_PRODUCT_TYPES,
+} from "@/types/products";
 
-// ------------------------------------------------------------------
-
-/**
- * Represents the form fields for creating a new product record.
- */
-export type ProductFormFields = {
-  name: string;
-  category: ProductCategory;
-  type: ProductType;
-  price: number;
-  thumbnail: FileList;
-};
+import type { ProductFormFields } from "@/features/products/types";
 
 // ------------------------------------------------------------------
 
@@ -62,20 +54,17 @@ async function onSubmit(
 
 // ------------------------------------------------------------------
 
-export default function ProductCreatePage() {
+export default function ProductCreateForm() {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
     reset,
   } = useForm<ProductFormFields>({ mode: "onTouched" });
-
   const [resultMessage, setResultMessage] = useState<string | null>(null);
 
   return (
-    <div className={styles.container}>
-      <h1>Create New Product</h1>
-
+    <>
       <form
         onSubmit={handleSubmit((values) =>
           onSubmit(values, reset, setResultMessage)
@@ -102,10 +91,11 @@ export default function ProductCreatePage() {
             <option value="" disabled>
               Select category
             </option>
-            <option value="women">Women</option>
-            <option value="men">Men</option>
-            <option value="kids">Kids</option>
-            <option value="baby">Baby</option>
+            {CONST_PRODUCT_CATEGORIES.map((category) => (
+              <option key={category} value={category}>
+                {category.charAt(0).toUpperCase() + category.slice(1)}
+              </option>
+            ))}
           </select>
           {errors.category && (
             <div className={styles.error}>{errors.category.message}</div>
@@ -121,9 +111,11 @@ export default function ProductCreatePage() {
             <option value="" disabled>
               Select Type
             </option>
-            <option value="outerwear">Outerwear</option>
-            <option value="tops">Tops</option>
-            <option value="bottoms">Bottoms</option>
+            {CONST_PRODUCT_TYPES.map((type) => (
+              <option key={type} value={type}>
+                {type.charAt(0).toUpperCase() + type.slice(1)}
+              </option>
+            ))}
           </select>
           {errors.type && (
             <div className={styles.error}>{errors.type.message}</div>
@@ -162,6 +154,6 @@ export default function ProductCreatePage() {
       </form>
 
       {resultMessage && <div className={styles.result}>{resultMessage}</div>}
-    </div>
+    </>
   );
 }

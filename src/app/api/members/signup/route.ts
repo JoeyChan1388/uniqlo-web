@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 import { NextResponse } from "next/server";
-import { createMember } from "../controller";
+import { createMember } from "@/app/api/members/controller";
 
 // ------------------------------------------------------------------
 

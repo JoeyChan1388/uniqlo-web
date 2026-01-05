@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 import { NextResponse } from "next/server";
-import { authenticateMember } from "../controller";
+import { authenticateMember } from "@/app/api/members/controller";
 
 // ------------------------------------------------------------------
 
