@@ -30,6 +30,7 @@ export const fetchProducts = async (
  * @returns The product with the specified ID
  */
 export const fetchProductById = async (id: string) => {
+  // TODO: Implement schema validation for the returned product data using Zod
   const res = await fetch(`/api/products/${id}`);
 
   if (!res.ok) throw new Error("Failed to fetch product");
