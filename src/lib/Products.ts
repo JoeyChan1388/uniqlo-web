@@ -1,10 +1,12 @@
 import { z } from "zod";
 import {
   CONST_PRODUCT_CATEGORIES,
+  CONST_PRODUCT_SIZES,
   CONST_PRODUCT_TYPES,
   type ProductCategory,
   type ProductType,
 } from "@/types/products";
+import { apiRoutes } from "@/constants/apiRoutes";
 
 // ------------------------------------------------------------------
 
@@ -21,9 +23,7 @@ const ProductSchema = z.object({
   category: z.enum(CONST_PRODUCT_CATEGORIES),
   rating: z.number().optional(),
   thumbnailUrl: z.string().optional(),
-  sizesAvailable: z
-    .array(z.enum(["XXS", "XS", "S", "M", "L", "XL", "XXL"]))
-    .optional(),
+  sizesAvailable: z.array(z.enum(CONST_PRODUCT_SIZES)).optional(),
 });
 
 // ------------------------------------------------------------------
@@ -39,9 +39,9 @@ export const fetchProducts = async (
   productType?: ProductType
 ) => {
   const res = await fetch(
-    `/api/products/${productCategory ? `?category=${productCategory}` : ""}/${
-      productType ? `&type=${productType}` : ""
-    }`
+    `${apiRoutes.v1.products.root}/${
+      productCategory ? `?category=${productCategory}` : ""
+    }${productType ? `&type=${productType}` : ""}`
   );
 
   if (!res.ok) throw new Error("Failed to fetch products");
@@ -64,7 +64,9 @@ export const fetchProducts = async (
  * @returns The product with the specified ID
  */
 export const fetchProductById = async (id: string) => {
-  const res = await fetch(`/api/products/${id}`);
+  const res = await fetch(
+    `${apiRoutes.v1.products.product.replace("{id}", id)}`
+  );
 
   if (!res.ok) throw new Error("Failed to fetch product");
 

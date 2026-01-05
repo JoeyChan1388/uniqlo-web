@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import { Member } from "@/types/members";
+import { apiRoutes } from "@/constants/apiRoutes";
 
 // ------------------------------------------------------------------
 
@@ -12,7 +13,11 @@ export type MemberStore = {
   emptyCurrentMember: () => void;
   setCurrentMember: (currentMember: Member) => void;
   loadCurrentMember: () => Promise<{ message: string }>;
-  signup: (email: string, password: string, name: string) => Promise<{ message: string }>;
+  signup: (
+    email: string,
+    password: string,
+    name: string
+  ) => Promise<{ message: string }>;
   login: (email: string, password: string) => Promise<{ message: string }>;
   logout: () => Promise<{ message: string }>;
 };
@@ -45,7 +50,7 @@ export const useCurrentMember = create<MemberStore>((set) => ({
     set({ loading: true });
 
     try {
-      const res = await fetch("/api/members/signup", {
+      const res = await fetch(apiRoutes.v1.members.signup, {
         method: "POST",
         body: JSON.stringify({ email, password, name }),
       });
@@ -76,7 +81,7 @@ export const useCurrentMember = create<MemberStore>((set) => ({
     set({ loading: true });
 
     try {
-      const res = await fetch("/api/members/login", {
+      const res = await fetch(apiRoutes.v1.members.login, {
         method: "POST",
         body: JSON.stringify({ email, password }),
       });
@@ -106,7 +111,7 @@ export const useCurrentMember = create<MemberStore>((set) => ({
     set({ loading: true });
 
     try {
-      const res = await fetch("/api/members/me");
+      const res = await fetch(apiRoutes.v1.members.me);
 
       if (res.ok) {
         // Parse the returned member data
@@ -143,7 +148,7 @@ export const useCurrentMember = create<MemberStore>((set) => ({
     set({ loading: true });
 
     try {
-      const res = await fetch("/api/members/logout", { method: "POST" });
+      const res = await fetch(apiRoutes.v1.members.logout, { method: "POST" });
 
       if (!res.ok) {
         throw new Error(`Server returned ${res.status}`);

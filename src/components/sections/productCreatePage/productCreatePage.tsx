@@ -4,6 +4,7 @@ import styles from "./productCreatePage.module.css";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { apiRoutes } from "@/constants/apiRoutes";
 import type { ProductCategory, ProductType } from "@/types/products";
 
 // ------------------------------------------------------------------
@@ -45,7 +46,7 @@ async function onSubmit(
     const file = values.thumbnail?.[0];
     if (file) fd.append("thumbnail", file, file.name);
 
-    const res = await fetch("/api/products", {
+    const res = await fetch(apiRoutes.v1.products.root, {
       method: "POST",
       body: fd,
     });
