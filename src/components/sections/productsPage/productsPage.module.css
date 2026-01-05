@@ -83,3 +83,21 @@
   font-size: 14px;
   color: var(--sale);
 }
+
+.skeletonCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.skeletonCardImageContainer {
+  width: 300px;
+  height: 400px;
+  background-color: var(--background-accent);
+}
+
+.skeletonCardContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}

@@ -11,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import styles from "./productsPage.module.css";
 import Button from "@/components/common/button/button";
+import Skeleton from "@/components/common/skeleton/skeleton";
 
 // ------------------------------------------------------------------
 
@@ -83,7 +84,26 @@ function StoreSelector() {
 
 // ------------------------------------------------------------------
 
-// TODO: Skeleton loading state
+function ProductCardSkeleton() {
+  return (
+    <div className={styles.skeletonCard}>
+      <Skeleton
+        width="300px"
+        height="400px"
+        borderRadius="0"
+        className={styles.skeletonCardImageContainer}
+      />
+      <div className={styles.skeletonCardContent}>
+        <Skeleton width="80%" height="16px" />
+        <Skeleton width="60%" height="18px" />
+        <Skeleton width="40%" height="18px" />
+      </div>
+    </div>
+  );
+}
+
+// ------------------------------------------------------------------
+
 function ProductsGridView({
   productCategory,
   productType,
@@ -100,7 +120,17 @@ function ProductsGridView({
   });
 
   // Render loading, error, or products grid depending on state
-  if (isLoading) return <div>Loading products...</div>;
+  if (isLoading) {
+    return (
+      <div className={styles.productsGridViewContainer}>
+        <div className={styles.productGrid}>
+          {Array.from({ length: 8 }).map((_, index) => (
+            <ProductCardSkeleton key={index} />
+          ))}
+        </div>
+      </div>
+    );
+  }
   if (isError) return <div>Error: {(error as Error).message}</div>;
 
   return (
