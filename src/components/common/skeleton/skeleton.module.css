@@ -11,7 +11,7 @@
   background: linear-gradient(
     90deg,
     var(--background-accent) 0%,
-    #f0f0f0 50%,
+    var(--background) 50%,
     var(--background-accent) 100%
   );
   background-size: 1000px 100%;
