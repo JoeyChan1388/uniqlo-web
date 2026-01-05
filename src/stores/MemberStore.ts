@@ -12,6 +12,7 @@ export type MemberStore = {
   emptyCurrentMember: () => void;
   setCurrentMember: (currentMember: Member) => void;
   loadCurrentMember: () => Promise<{ message: string }>;
+  signup: (email: string, password: string, name: string) => Promise<{ message: string }>;
   login: (email: string, password: string) => Promise<{ message: string }>;
   logout: () => Promise<{ message: string }>;
 };
@@ -25,7 +26,8 @@ export type MemberStore = {
  * - `setCurrentMember`: A function to set the current member.
  * - `emptyCurrentMember`: A function to reset the current member to undefined.
  * - `loadCurrentMember`: A function to load the current member from the server. (/me endpoint)
- * - `login`: A function to log in a member with email and password. 
+ * - `signup`: A function to sign up a new member with email and password.
+ * - `login`: A function to log in a member with email and password.
  * - `logout`: A function to log out the current member.
  */
 export const useCurrentMember = create<MemberStore>((set) => ({
@@ -38,6 +40,37 @@ export const useCurrentMember = create<MemberStore>((set) => ({
     set({
       currentMember: undefined,
     }),
+
+  signup: async (email: string, password: string, name: string) => {
+    set({ loading: true });
+
+    try {
+      const res = await fetch("/api/members/signup", {
+        method: "POST",
+        body: JSON.stringify({ email, password, name }),
+      });
+
+      if (!res.ok) throw new Error(`Server returned ${res.status}`);
+
+      // Parse the returned member data and update the store
+      const member: Member = (await res.json()).member;
+
+      console.log("Signed up member:", member);
+
+      // Set the current member in the store and mark loading as false
+      set({ currentMember: member, loading: false });
+      return {
+        message: "Signup successful.",
+      };
+    } catch (err) {
+      // On error, mark loading as false
+      set({ loading: false });
+
+      return {
+        message: `Signup failed: ${(err as Error).message}`,
+      };
+    }
+  },
 
   login: async (email: string, password: string) => {
     set({ loading: true });

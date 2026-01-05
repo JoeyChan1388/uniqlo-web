@@ -15,7 +15,7 @@ import { NextRequest, NextResponse } from "next/server";
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Retrieve the auth token from cookies from the GET new page request.  
+  // Retrieve the auth token from cookies from the GET new page request.
   const token = request.cookies.get("auth_token")?.value;
 
   // Check if user is already logged in and trying to access login page

@@ -1,3 +1,5 @@
+import bcrypt from "bcryptjs";
+
 import { pool } from "@/lib/db";
 import { Member } from "@/types/members";
 import { RowDataPacket } from "mysql2";
@@ -7,7 +9,7 @@ import { RowDataPacket } from "mysql2";
 /**
  *
  * Formats a database row into a Member object.
- * 
+ *
  * @param row - The db row to be converted into a Member object
  * @returns - The formatted Member object
  */
@@ -18,6 +20,43 @@ function formatRowToMember(row: RowDataPacket): Member {
     email: String(row.email),
     type: row.type,
   };
+}
+
+// ------------------------------------------------------------------
+
+/**
+ * Authenticates a member by their email and password.
+ *
+ * @param email - The email of the member
+ * @param password - The password of the member
+ */
+export async function authenticateMember(email: string, password: string) {
+  // Build and execute the query
+  const sql = `SELECT id, email, password FROM users WHERE email = ? LIMIT 1`;
+  const [rows] = await pool.query(sql, [email]);
+
+  // If no rows are returned, member does not exist
+  const compareData = Array.isArray(rows) && rows.length > 0 ? rows[0] : null;
+
+  if (!compareData) {
+    return null;
+  }
+
+  // Compare the provided password with the stored hashed password
+  const passwordMatch = await bcrypt.compare(
+    password,
+    (compareData as any).password
+  );
+
+  // If passwords do not match, return null
+  if (!passwordMatch) {
+    return null;
+  }
+
+  // Retrieve and return the full member data
+  const member = await getMemberById(String((compareData as any).id));
+
+  return member;
 }
 
 // ------------------------------------------------------------------
@@ -68,4 +107,53 @@ export async function getMemberByEmail(email: string) {
   if (Array.isArray(formattedRows) && formattedRows.length > 0) {
     return formattedRows[0];
   }
+}
+
+// ------------------------------------------------------------------
+
+/**
+ *
+ * Creates a new member with the specified email and password.
+ * @param email - The email of the new member
+ * @param password - The password of the new member
+ * @param name - The name of the new member
+ * @returns The newly created member
+ * @throws Error if member with the same email already exists
+ */
+export async function createMember(
+  email: string,
+  password: string,
+  name: string
+) {
+  // Check if a member with the same email already exists
+  const existingMember = await getMemberByEmail(email);
+
+  if (existingMember) {
+    throw new Error("Member with this email already exists.");
+  }
+
+  // Build and the insert query
+  const sql = `INSERT INTO users (email, password, name, type) VALUES (?, ?, ?, ?)`;
+
+  // Hash the password before storing it
+  const hashedPassword = await bcrypt.hash(password, 10);
+
+  // Execute the insert query
+  const [result] = await pool.query(sql, [
+    email,
+    hashedPassword,
+    name,
+    "admin",
+  ]);
+
+  // Retrieve the insert ID of the new member
+  const insertId = (result as any).insertId;
+
+  // Return the newly created member
+  return {
+    id: String(insertId),
+    name: name,
+    email,
+    type: "admin",
+  } as Member;
 }
